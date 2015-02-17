@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dashboard</string>
+    <string name="start_on_boot">Start on boot</string>
+    <string name="settings_name">Dashboard settings</string>
+    <string name="init_rpm">0</string>
+    <string name="unit_rpm">rpm</string>
+    <string name="init_temp">0°C</string>
+    <string name="unit_temp">°C</string>
+    <string name="init_voltage">0.0 V</string>
+    <string name="unit_voltage">"V"</string>
+    <string name="init_load">"0%"</string>
+    <string name="unit_load">"%"</string>
+    <string name="notification_desc">Display dashboard</string>
+    <string name="high_load">High load</string>
+    <string name="high_load_desc">Minimum value to display high engine load animation</string>
+    <string name="medium_load">Medium load</string>
+    <string name="medium_load_desc">Minimum value to display medium engine load animation</string>
+    <string name="low_load">Low load</string>
+    <string name="low_load_desc">Minimum value to display low engine load animation</string>
+    <string name="general">Main settings</string>
+    <string name="engine_load">Engine load animation</string>
+    <string name="shift_light">Shift light</string>
+    <string name="shift_light_1">First shift light</string>
+    <string name="shift_light_1_desc">At which engine speed should the 1st shift light be on</string>
+    <string name="shift_light_2">Second shift light</string>
+    <string name="shift_light_2_desc">At which engine speed should the 2nd shift light be on</string>
+    <string name="shift_light_3">Third shift light</string>
+    <string name="shift_light_3_desc">At which engine speed should the 3rd shift light be on</string>
+    <string name="shift_light_4">Fourth shift light</string>
+    <string name="shift_light_4_desc">At which engine speed should the 4th shift light be on</string>
+    <string name="shift_light_5">Fifth shift light</string>
+    <string name="shift_light_5_desc">At which engine speed should the 5th shift light be on</string>
+    <string name="colors">Colors</string>
+    <string name="normal_text_color">Text color</string>
+    <string name="warning_text_color">Warning color</string>
+    <string name="danger_text_color">Danger color</string>
+    <string name="background_color">Background color</string>
+    <string name="coolant_temperature">Engine coolant temperature</string>
+    <string name="min_cool_temp">Minimum value</string>
+    <string name="min_cool_temp_desc">Minimum value under which temperature is displayed with warning color</string>
+    <string name="max_cool_temp">Maximum value</string>
+    <string name="max_cool_temp_desc">Maximum value over which temperature is displayed with warning color</string>
+</resources>

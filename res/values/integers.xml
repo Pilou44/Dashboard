@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <integer name="speed_at_3000_in_1st">25</integer>
+    <integer name="speed_at_3000_in_2nd">45</integer>
+    <integer name="speed_at_3000_in_3rd">60</integer>
+    <integer name="speed_at_3000_in_4th">70</integer>
+    <integer name="speed_at_3000_in_5th">95</integer>
+    <integer name="high_load">35</integer>
+    <integer name="medium_load">15</integer>
+    <integer name="low_load">3</integer>
+    <integer name="shift_light_1">4500</integer>
+    <integer name="shift_light_2">4750</integer>
+    <integer name="shift_light_3">5000</integer>
+    <integer name="shift_light_4">5250</integer>
+    <integer name="shift_light_5">5500</integer>
+    <integer name="min_cool_temp">80</integer>
+    <integer name="max_cool_temp">90</integer>
+</resources>
+         
