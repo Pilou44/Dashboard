@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="init_rpm" translatable="false">0</string>
+    <string name="init_temp" translatable="false">0°C</string>
+    <string name="unit_temp" translatable="false">°C</string>
+    <string name="init_voltage" translatable="false">0.0 V</string>
+    <string name="unit_voltage" translatable="false">"V"</string>
+    <string name="init_load" translatable="false">"0%"</string>
+    <string name="unit_load" translatable="false">"%"</string>
+</resources>

@@ -3,21 +3,14 @@ package com.freak.dashboard;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.prowl.torque.remote.ITorqueService;
-
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,12 +20,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.freak.dashboard.DashboardService.LocalBinder;
+
 public class Dashboard extends Activity {
 
 	private static final String TAG = Dashboard.class.getSimpleName();
 
 	private static final long PERIOD = 500;
 	private static final long ANIMATION_PERIOD = 100;
+
+	private static final boolean DEBUG = false;
+	
+
+	private DashboardService dashboardService;
+
+	int rpm = 0;
+	int temp = 0;
+	int load = 0;
+	float voltage = 0;
 
 	private int highLoadValue;
 	private int mediumLoadValue;
@@ -52,7 +57,6 @@ public class Dashboard extends Activity {
 	private int minCoolTemp;
 	private int maxCoolTemp;
 	
-	private ITorqueService torqueService;
 	private Timer updateTimer;
 	private Handler handler;
 	private Handler animationHandler;
@@ -71,10 +75,6 @@ public class Dashboard extends Activity {
 	private int[] animEnCours = SonicAnimation.sonic_wait;
 	private int indexAnim = 0;
 
-	private int rpm = 0;
-	private int temp = 0;
-	private Float load = (float) 0;
-
 	private boolean shiftLightOn;
 	private ImageView shift1;
 	private ImageView shift2;
@@ -82,12 +82,18 @@ public class Dashboard extends Activity {
 	private ImageView shift4;
 	private ImageView shift5;
 
-	private int NOTIFICATION_ID = 0;
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		if (DEBUG)
+			Log.d(TAG, "onCreate");
+
 		super.onCreate(savedInstanceState);
+		
+		if (DEBUG)
+			Log.d(TAG, "startService");
+		Intent intent = new Intent(this, DashboardService.class);
+		this.startService(intent);
 		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
@@ -111,42 +117,26 @@ public class Dashboard extends Activity {
 		handler = new Handler();
 		animationHandler = new Handler();
 
-		//Récupération du notification Manager 
-		final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE); 
-
-		//Récupération du titre et description de la notification 
-		final String notificationTitle = getResources().getString(R.string.app_name); 
-		final String notificationDesc = getResources().getString(R.string.notification_desc);        
-
-		//Création de la notification avec spécification de l'icône de la notification et le texte qui apparait à la création de la notification 
-		final Notification notification = new Notification(R.drawable.notif_icon, notificationTitle, System.currentTimeMillis());
-		notification.flags = Notification.FLAG_ONGOING_EVENT;
-
-		// Intent qui lancera vers l'activité MainActivity
-		Intent notificationIntent = new Intent(this, Dashboard.class);
-		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		
-		//Définition de la redirection au moment du clic sur la notification. Dans notre cas la notification redirige vers notre application 
-		final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		
-		//Notification & Vibration 
-		notification.setLatestEventInfo(this, notificationTitle, notificationDesc, pendingIntent); 
-
-		notificationManager.notify(NOTIFICATION_ID, notification); 
 	}
 
 	@Override
 	protected void onResume() {
+		if (DEBUG)
+			Log.d(TAG, "onResume");
+
 		super.onResume();
 
-		// Bind to the torque service
-		Intent intent = new Intent();
-		intent.setClassName("org.prowl.torque", "org.prowl.torque.remote.TorqueService");
+		// Bind to the dashboard service
+		if (DEBUG)
+			Log.d(TAG, "Connect to service");
+		Intent intent = new Intent(this, DashboardService.class);
 		successfulBind = bindService(intent, connection, 0);
 
 		shiftLightOn = false;
 		
 		// Load preferences
+		if (DEBUG)
+			Log.d(TAG, "Load Preferences");
 		SharedPreferences settings = getSharedPreferences("com.freak.dashboard_preferences", 0);
 		highLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_HIGH_LOAD, "" + getResources().getInteger(R.integer.high_load)));
 		mediumLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_MEDIUM_LOAD, "" + getResources().getInteger(R.integer.medium_load)));
@@ -172,13 +162,17 @@ public class Dashboard extends Activity {
 		background.setBackgroundColor(backgroundColor);
 
 		if (successfulBind) {
-			updateTimer = new Timer();
-			updateTimer.schedule(new TimerTask() { public void run() {
-				if (torqueService != null)
-					update();
-			}}, 1000, PERIOD);
+    		// Initialize update
+   			updateTimer = new Timer();
+   			updateTimer.schedule(new TimerTask() { public void run() {
+   				if (dashboardService != null)
+   					update();
+   			}}, 1000, PERIOD);
 		}
-
+		
+		// Initialize animation
+		if (DEBUG)
+			Log.d(TAG, "Initialize animation");
 		animationTimer = new Timer();
 		animationTimer.schedule(new TimerTask() { public void run() {
 			updateAnimation();
@@ -186,22 +180,37 @@ public class Dashboard extends Activity {
 	}
 
 
+	/**
+	 * Bits of service code. You usually won't need to change this.
+	 */
+	private ServiceConnection connection = new ServiceConnection() {
+		public void onServiceConnected(ComponentName arg0, IBinder service) {
+    		if (DEBUG)
+    			Log.d(TAG, "onServiceConnected");
+			// We've bound to LocalService, cast the IBinder and get LocalService instance
+            LocalBinder binder = (LocalBinder) service;
+            dashboardService = binder.getService();
+		};
+		public void onServiceDisconnected(ComponentName name) {
+    		if (DEBUG)
+    			Log.d(TAG, "onServiceDisconnected");
+			dashboardService = null;
+		};
+	};
 
 	@Override
 	protected void onPause() {
-		super.onPause();
+		if (DEBUG)
+			Log.d(TAG, "onPause");
 		if (successfulBind) {
+			if (DEBUG)
+				Log.d(TAG, "unbindService");
 			updateTimer.cancel();
+			successfulBind = false;
 			unbindService(connection);
 		}
 		animationTimer.cancel();
-	}
-
-	@Override
-	protected void onDestroy() {
-		//final NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE); 
-		//notificationManager.cancel(NOTIFICATION_ID); 
-		super.onDestroy();
+		super.onPause();
 	}
 
 	public void updateAnimation() {
@@ -214,63 +223,35 @@ public class Dashboard extends Activity {
 	}
 	
 	public void update() {
-		String text = ""; 
-		try {
-
-			float readRpm = torqueService.getValueForPid(0x0c, true); // Engine RPM
-			float readLoad = torqueService.getValueForPid(0x04, true); // Calculated engine load value
-			float readTemp = torqueService.getValueForPid(0x05, true); // Engine coolant temperature
-			float readVoltage = torqueService.getValueForPid(0xff1238, true); // Voltage
-
-			text = text + ((int)readRpm) + "\n" + readLoad + "\n" + ((int)readTemp) + "\n" + readVoltage + "\n";
-
-		} catch(RemoteException e) {
-			Log.e(TAG,e.getMessage(),e);
-		}
-
+		if (DEBUG)
+			Log.d(TAG, "Update datas");
+		
 		// Update datas
-		final String myText = text;
 		handler.post(new Runnable() { public void run() {
 			
-			// Update TextViews
-			int index1, index2;
-
-			index1 = 0;
-			index2 = myText.indexOf("\n");
-			try {
-				rpm = Integer.valueOf(myText.substring(index1, index2));
-			} catch (NumberFormatException e) {
-				Log.e(TAG,e.getMessage(),e);
-			}
+			if (DEBUG)
+				Log.d(TAG, "Read datas");
+			rpm = dashboardService.getRpm();
+			temp = dashboardService.getTemp();
+			load = dashboardService.getLoad();
+			voltage = dashboardService.getVoltage();
+			
+			if (DEBUG)
+				Log.d(TAG, "Update fields");
 			textRPM.setText("" + rpm);
-
-			index1 = index2 + 1;
-			index2 = myText.indexOf("\n", index1);
-			try {
-				load = Float.valueOf(myText.substring(index1, index2));
-			} catch (NumberFormatException e) {
-				Log.e(TAG,e.getMessage(),e);
-			}
-			textLoad.setText("" + load.shortValue() + getResources().getString(R.string.unit_load));
-
-			index1 = index2 + 1;
-			index2 = myText.indexOf("\n", index1);
-			try {
-				temp = Integer.valueOf(myText.substring(index1, index2));
-			} catch (NumberFormatException e) {
-				Log.e(TAG,e.getMessage(),e);
-			}
+			textLoad.setText("" + load + getResources().getString(R.string.unit_load));
 			textTemp.setText("" + temp + getResources().getString(R.string.unit_temp));
-			if (temp < minCoolTemp)
-				textTemp.setTextColor(warningColor);
-			else if (temp > maxCoolTemp)
-				textTemp.setTextColor(dangerColor);
-			else 
-				textTemp.setTextColor(textColor);
+			textVoltage.setText(voltage + " " + getResources().getString(R.string.unit_voltage));
 
-			index1 = index2 + 1;
-			index2 = myText.indexOf("\n", index1);
-			textVoltage.setText(myText.substring(index1, index2) + " " + getResources().getString(R.string.unit_voltage));
+			if (temp < minCoolTemp) {
+				textTemp.setTextColor(warningColor);
+			}
+			else if (temp > maxCoolTemp) {
+				textTemp.setTextColor(dangerColor);
+			}
+			else {
+				textTemp.setTextColor(textColor);
+			}
 
 			
 			// Update displayed animation
@@ -340,25 +321,16 @@ public class Dashboard extends Activity {
 		}});
 	}
 
-	/**
-	 * Bits of service code. You usually won't need to change this.
-	 */
-	private ServiceConnection connection = new ServiceConnection() {
-		public void onServiceConnected(ComponentName arg0, IBinder service) {
-			torqueService = ITorqueService.Stub.asInterface(service);
-		};
-		public void onServiceDisconnected(ComponentName name) {
-			torqueService = null;
-		};
-	};
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		switch (item.getItemId()) {
 		case R.id.dashboard_settings:
 			Intent intent = new Intent(Dashboard.this, DashboardSettings.class);
 			startActivity(intent);
+			break;
+		case R.id.exit:
+			dashboardService.stopSelf();
+			this.finish();
 			break;
 		}
 		return true;

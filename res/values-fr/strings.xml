@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tableau de bord</string>
+    <string name="start_on_boot">Lancer au démarrage</string>
+    <string name="settings_name">Paramètres du tableau de bord</string>
+    <string name="exit">Quitter</string>
+    <string name="unit_rpm">tpm</string>
+    <string name="notification_desc">Afficher le tableau de bord</string>
+    <string name="high_load">Charge élevée</string>
+    <string name="high_load_desc">Valeur minimum pour afficher l\'animation de charge moteur élevée</string>
+    <string name="medium_load">Charge moyenne</string>
+    <string name="medium_load_desc">Valeur minimum pour afficher l\'animation de charge moteur moyenne</string>
+    <string name="low_load">Charge basse</string>
+    <string name="low_load_desc">Valeur minimum pour afficher l\'animation de charge moteur basse</string>
+    <string name="general">Paramètres généraux</string>
+    <string name="engine_load">Animation de charge moteur</string>
+    <string name="shift_light">Shift light (indicateur lumineux de changement de vitesse)</string>
+    <string name="shift_light_1">Premier indicateur</string>
+    <string name="shift_light_1_desc">A quel régime moteur la 1ère lumière doit-elle s\'allumer</string>
+    <string name="shift_light_2">Deuxième indicateur</string>
+    <string name="shift_light_2_desc">A quel régime moteur la 2nde lumière doit-elle s\'allumer</string>
+    <string name="shift_light_3">Troisième indicateur</string>
+    <string name="shift_light_3_desc">A quel régime moteur la 3ème lumière doit-elle s\'allumer</string>
+    <string name="shift_light_4">Quatrième indicateur</string>
+    <string name="shift_light_4_desc">A quel régime moteur la 4ème lumière doit-elle s\'allumer</string>
+    <string name="shift_light_5">Cinquième indicateur</string>
+    <string name="shift_light_5_desc">A quel régime moteur la 5ème lumière doit-elle s\'allumer</string>
+    <string name="colors">Couleurs</string>
+    <string name="normal_text_color">Couleur du texte</string>
+    <string name="warning_text_color">Couleur pour un avertissement</string>
+    <string name="danger_text_color">Couleur pour un danger</string>
+    <string name="background_color">Couleur du fond</string>
+    <string name="coolant_temperature">Temperature du liquide de refroidissement</string>
+    <string name="min_cool_temp">Valeur minimum</string>
+    <string name="min_cool_temp_desc">Valeur sous laquelle la température est affichée avec la couleur d\'avertissement</string>
+    <string name="max_cool_temp">Valeur maximum</string>
+    <string name="max_cool_temp_desc">Valeur au dessus de laquelle la température est affichée comme dangereuse</string>
+</resources>
