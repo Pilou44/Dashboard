@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,7 +51,6 @@ public class Dashboard extends Activity {
 	private int textColor;
 	private int warningColor;
 	private int dangerColor;
-	private int backgroundColor;
 	
 	private int minCoolTemp;
 	private int maxCoolTemp;
@@ -95,7 +93,6 @@ public class Dashboard extends Activity {
 		Intent intent = new Intent(this, DashboardService.class);
 		this.startService(intent);
 		
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
 
 		background = (LinearLayout) findViewById(R.id.background);
@@ -149,11 +146,12 @@ public class Dashboard extends Activity {
 		textColor = settings.getInt(DashboardSettings.KEY_TEXT_COLOR, getResources().getColor(R.color.text));
 		warningColor = settings.getInt(DashboardSettings.KEY_WARNING_COLOR, getResources().getColor(R.color.warning));
 		dangerColor = settings.getInt(DashboardSettings.KEY_DANGER_COLOR, getResources().getColor(R.color.danger));
-		backgroundColor = settings.getInt(DashboardSettings.KEY_BACKGROUND_COLOR, getResources().getColor(R.color.background));
 		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
 		maxCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MAX_COOL_TEMP, "" + getResources().getInteger(R.integer.max_cool_temp)));
-		
-		textRPM.setTextColor(textColor);
+
+        int backgroundColor = settings.getInt(DashboardSettings.KEY_BACKGROUND_COLOR, getResources().getColor(R.color.background));
+
+        textRPM.setTextColor(textColor);
 		textUnitRPM.setTextColor(textColor);
 		textLoad.setTextColor(textColor);
 		textTemp.setTextColor(textColor);
@@ -190,12 +188,12 @@ public class Dashboard extends Activity {
 			// We've bound to LocalService, cast the IBinder and get LocalService instance
             LocalBinder binder = (LocalBinder) service;
             dashboardService = binder.getService();
-		};
+		}
 		public void onServiceDisconnected(ComponentName name) {
     		if (DEBUG)
     			Log.d(TAG, "onServiceDisconnected");
 			dashboardService = null;
-		};
+		}
 	};
 
 	@Override
@@ -325,7 +323,7 @@ public class Dashboard extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.dashboard_settings:
-			Intent intent = new Intent(Dashboard.this, DashboardSettings.class);
+			Intent intent = new Intent(this, DashboardSettings.class);
 			startActivity(intent);
 			break;
 		case R.id.exit:
