@@ -1,0 +1,3 @@
+[submodule "libs/ambilwarna_pilou44"]
+	path = libs/ambilwarna_pilou44
+	url = https://github.com/Pilou44/ambilwarna.git

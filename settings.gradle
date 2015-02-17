@@ -1,0 +1,2 @@
+include ':app', ':AmbilWarna:library'
+project(':AmbilWarna:library').projectDir = new File('libs/ambilwarna_pilou44/library')
