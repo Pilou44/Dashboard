@@ -79,6 +79,7 @@ public class Dashboard extends Activity {
 	private ImageView shift3;
 	private ImageView shift4;
 	private ImageView shift5;
+	private ManoView mano;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -110,6 +111,8 @@ public class Dashboard extends Activity {
 		shift3 = (ImageView) findViewById(R.id.shift3);
 		shift4 = (ImageView) findViewById(R.id.shift4);
 		shift5 = (ImageView) findViewById(R.id.shift5);
+
+        mano = (ManoView) findViewById(R.id.mano);
 
 		handler = new Handler();
 		animationHandler = new Handler();
@@ -148,6 +151,9 @@ public class Dashboard extends Activity {
 		dangerColor = settings.getInt(DashboardSettings.KEY_DANGER_COLOR, getResources().getColor(R.color.danger));
 		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
 		maxCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MAX_COOL_TEMP, "" + getResources().getInteger(R.integer.max_cool_temp)));
+        mano.setValues(0, getResources().getInteger(R.integer.shift_light_5), -20, 110);
+        mano.setNeedleColor(dangerColor);
+        mano.setManoColor(textColor);
 
         int backgroundColor = settings.getInt(DashboardSettings.KEY_BACKGROUND_COLOR, getResources().getColor(R.color.background));
 
@@ -251,6 +257,8 @@ public class Dashboard extends Activity {
 				textTemp.setTextColor(textColor);
 			}
 
+            mano.setValue(rpm);
+            mano.invalidate();
 			
 			// Update displayed animation
 			if (load >= highLoadValue)

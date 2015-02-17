@@ -6,7 +6,9 @@
     android:layout_height="fill_parent"
     android:background="@color/background"
     >
+
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/shift_lights"
 	    android:orientation="horizontal"
 	    android:layout_width="fill_parent"
 	    android:layout_height="55px"
@@ -17,119 +19,133 @@
 			android:layout_width="50px" 
 			android:layout_height="50px" 
 			android:background="@drawable/off_light"
+            android:layout_marginLeft="2px"
+            android:layout_marginRight="2px"
 			 />
 	    <ImageView  
 			android:id="@+id/shift2"
 			android:layout_width="50px" 
 			android:layout_height="50px" 
 			android:background="@drawable/off_light"
+            android:layout_marginLeft="2px"
+            android:layout_marginRight="2px"
 			 />
 	    <ImageView  
 			android:id="@+id/shift3"
 			android:layout_width="50px" 
 			android:layout_height="50px" 
 			android:background="@drawable/off_light"
+            android:layout_marginLeft="2px"
+            android:layout_marginRight="2px"
 			 />
 	    <ImageView  
 			android:id="@+id/shift4"
 			android:layout_width="50px" 
 			android:layout_height="50px" 
 			android:background="@drawable/off_light"
+            android:layout_marginLeft="2px"
+            android:layout_marginRight="2px"
 			 />
 	    <ImageView  
 			android:id="@+id/shift5"
 			android:layout_width="50px" 
 			android:layout_height="50px" 
 			android:background="@drawable/off_light"
+            android:layout_marginLeft="2px"
+            android:layout_marginRight="2px"
 			 />
 	</LinearLayout>
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="horizontal"
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    >
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:orientation="vertical"
-		    android:layout_width="220px"
-		    android:layout_height="fill_parent"
-			android:gravity="center"
-		    >
-		    <ImageView  
-				android:id="@+id/anim"
-			    android:layout_width="200px" 
-			    android:layout_height="220px" 
-			    android:background="@drawable/sonic_stand"
-			    />
-			<TextView  
-				android:id="@+id/load"
-				android:layout_width="100px" 
-				android:layout_height="wrap_content" 
-				android:text="@string/init_load"
-				android:textSize="50px"
-				android:gravity="center|top"
-		    	android:textColor="@color/text"
-				    />
-		</LinearLayout>
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:orientation="vertical"
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-			android:gravity="center"
-		    >
-	
-			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			    android:orientation="horizontal"
-			    android:layout_width="fill_parent"
-			    android:layout_height="185px"
-			    android:gravity="center"
-			    >
-				<TextView  
-					android:id="@+id/rpm"
-				    android:layout_width="300px" 
-				    android:layout_height="fill_parent" 
-				    android:text="@string/init_rpm"
-				    android:textSize="130px"
-				    android:gravity="center_vertical|right"
-		    		android:textColor="@color/text"
-				    />
-				<TextView  
-					android:id="@+id/unit_rpm"
-				    android:layout_width="50px" 
-				    android:layout_height="fill_parent" 
-				    android:text="@string/unit_rpm"
-				    android:textSize="20px"
-				    android:gravity="center"
-		    		android:textColor="@color/text"
-		    		android:layout_marginTop="43px"
-				    />
-			</LinearLayout>
-			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			    android:orientation="horizontal"
-			    android:layout_width="fill_parent"
-			    android:layout_height="185px"
-				android:gravity="right"
-			    >
-				<TextView  
-					android:id="@+id/voltage"
-				    android:layout_width="250px" 
-				    android:layout_height="fill_parent" 
-				    android:text="@string/init_voltage"
-				    android:textSize="70px"
-				    android:gravity="center_vertical|right"
-				    android:layout_margin="10px"
-		    		android:textColor="@color/text"
-				    />
-				<TextView  
-					android:id="@+id/temp"
-				    android:layout_width="250px" 
-				    android:layout_height="fill_parent" 
-				    android:text="@string/init_temp"
-				    android:textSize="70px"
-				    android:gravity="center_vertical|right"
-				    android:layout_margin="10px"
-		    		android:textColor="@color/warning"
-				    />
-			</LinearLayout>
-		</LinearLayout>
-	</LinearLayout>
+        <ImageView
+            android:id="@+id/anim"
+            android:layout_width="400px"
+            android:layout_height="440px"
+            android:background="@drawable/sonic_stand"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            />
+        <TextView
+            android:id="@+id/load"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:text="@string/init_load"
+            android:textSize="50px"
+            android:textColor="@color/text"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/anim"
+            />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/layout_rpm"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5px"
+            >
+            <TextView
+                android:id="@+id/rpm"
+                android:layout_width="200px"
+                android:layout_height="fill_parent"
+                android:text="@string/init_rpm"
+                android:textSize="70px"
+                android:gravity="center_vertical|right"
+                android:textColor="@color/text"
+                />
+            <TextView
+                android:id="@+id/unit_rpm"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="@string/unit_rpm"
+                android:textSize="20px"
+                android:gravity="center"
+                android:textColor="@color/text"
+                android:layout_marginTop="16px"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/temp"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:text="@string/init_temp"
+            android:textSize="50px"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/warning"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/layout_rpm"
+            android:layout_marginRight="5px"
+            />
+
+        <TextView
+            android:id="@+id/voltage"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:text="@string/init_voltage"
+            android:textSize="50px"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/text"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/temp"
+            android:layout_marginRight="5px"
+            />
+
+        <LinearLayout
+            android:layout_width="400px"
+            android:layout_height="400px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true">
+            <com.freak.dashboard.ManoView
+                android:id="@+id/mano"
+                android:layout_width="550px"
+                android:layout_height="550px" />
+        </LinearLayout>
+
+    </RelativeLayout>
 </LinearLayout>
