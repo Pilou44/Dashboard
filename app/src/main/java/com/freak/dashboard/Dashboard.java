@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freak.dashboard.DashboardService.LocalBinder;
+import com.freak.dashboard.mano.Manometer;
 
 public class Dashboard extends Activity {
 
@@ -79,7 +80,7 @@ public class Dashboard extends Activity {
 	private ImageView shift3;
 	private ImageView shift4;
 	private ImageView shift5;
-	private ManoView mano;
+	private Manometer mano;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -112,7 +113,7 @@ public class Dashboard extends Activity {
 		shift4 = (ImageView) findViewById(R.id.shift4);
 		shift5 = (ImageView) findViewById(R.id.shift5);
 
-        mano = (ManoView) findViewById(R.id.mano);
+        mano = (Manometer) findViewById(R.id.mano);
 
 		handler = new Handler();
 		animationHandler = new Handler();
@@ -151,8 +152,8 @@ public class Dashboard extends Activity {
 		dangerColor = settings.getInt(DashboardSettings.KEY_DANGER_COLOR, getResources().getColor(R.color.danger));
 		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
 		maxCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MAX_COOL_TEMP, "" + getResources().getInteger(R.integer.max_cool_temp)));
-        mano.setValues(0, getResources().getInteger(R.integer.shift_light_5), -20, 110);
-        mano.setNeedleColor(dangerColor);
+        mano.setValues(PERIOD, 0, getResources().getInteger(R.integer.shift_light_5), -10, 100);
+        mano.setHandColor(dangerColor);
         mano.setManoColor(textColor);
 
         int backgroundColor = settings.getInt(DashboardSettings.KEY_BACKGROUND_COLOR, getResources().getColor(R.color.background));
@@ -258,7 +259,6 @@ public class Dashboard extends Activity {
 			}
 
             mano.setValue(rpm);
-            mano.invalidate();
 			
 			// Update displayed animation
 			if (load >= highLoadValue)

@@ -77,6 +77,7 @@
             android:textColor="@color/text"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/anim"
+            android:visibility="gone"
             />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -137,11 +138,11 @@
             />
 
         <LinearLayout
-            android:layout_width="400px"
-            android:layout_height="400px"
+            android:layout_width="350px"
+            android:layout_height="350px"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true">
-            <com.freak.dashboard.ManoView
+            <com.freak.dashboard.mano.Manometer
                 android:id="@+id/mano"
                 android:layout_width="550px"
                 android:layout_height="550px" />
