@@ -62,8 +62,8 @@
 	    >
         <ImageView
             android:id="@+id/anim"
-            android:layout_width="400px"
-            android:layout_height="440px"
+            android:layout_width="370px"
+            android:layout_height="407px"
             android:background="@drawable/sonic_stand"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
