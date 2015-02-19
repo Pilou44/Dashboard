@@ -152,7 +152,7 @@ public class Dashboard extends Activity {
 		dangerColor = settings.getInt(DashboardSettings.KEY_DANGER_COLOR, getResources().getColor(R.color.danger));
 		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
 		maxCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MAX_COOL_TEMP, "" + getResources().getInteger(R.integer.max_cool_temp)));
-        mano.setValues(PERIOD, 0, getResources().getInteger(R.integer.shift_light_5), 3, -10, 100);
+        mano.setValues(PERIOD, 0, getResources().getInteger(R.integer.shift_light_5), 4, -10, 100);
         mano.setHandColor(dangerColor);
         mano.setManoColor(textColor);
 
@@ -222,7 +222,7 @@ public class Dashboard extends Activity {
 		animationHandler.post(new Runnable() { public void run() {
 			indexAnim++;
 			indexAnim = indexAnim%animEnCours.length;
-			animation.setBackgroundResource(animEnCours[indexAnim]);
+			animation.setImageResource(animEnCours[indexAnim]);
 		}});
 
 	}
@@ -275,51 +275,51 @@ public class Dashboard extends Activity {
 				shiftLightOn = true;
 				if (rpm >= shiftLight5Value)
 				{
-					shift1.setBackgroundResource(R.drawable.green_light);
-					shift2.setBackgroundResource(R.drawable.green_light);
-					shift3.setBackgroundResource(R.drawable.green_light);
-					shift4.setBackgroundResource(R.drawable.yellow_light);
-					shift5.setBackgroundResource(R.drawable.red_light);
+					shift1.setImageResource(R.drawable.green_light);
+					shift2.setImageResource(R.drawable.green_light);
+					shift3.setImageResource(R.drawable.green_light);
+					shift4.setImageResource(R.drawable.yellow_light);
+					shift5.setImageResource(R.drawable.red_light);
 				}
 				else if (rpm >= shiftLight4Value)
 				{
-					shift1.setBackgroundResource(R.drawable.green_light);
-					shift2.setBackgroundResource(R.drawable.green_light);
-					shift3.setBackgroundResource(R.drawable.green_light);
-					shift4.setBackgroundResource(R.drawable.yellow_light);
-					shift5.setBackgroundResource(R.drawable.off_light);
+					shift1.setImageResource(R.drawable.green_light);
+					shift2.setImageResource(R.drawable.green_light);
+					shift3.setImageResource(R.drawable.green_light);
+					shift4.setImageResource(R.drawable.yellow_light);
+					shift5.setImageResource(R.drawable.off_light);
 				}
 				else if (rpm >= shiftLight3Value)
 				{
-					shift1.setBackgroundResource(R.drawable.green_light);
-					shift2.setBackgroundResource(R.drawable.green_light);
-					shift3.setBackgroundResource(R.drawable.green_light);
-					shift4.setBackgroundResource(R.drawable.off_light);
-					shift5.setBackgroundResource(R.drawable.off_light);
+					shift1.setImageResource(R.drawable.green_light);
+					shift2.setImageResource(R.drawable.green_light);
+					shift3.setImageResource(R.drawable.green_light);
+					shift4.setImageResource(R.drawable.off_light);
+					shift5.setImageResource(R.drawable.off_light);
 				}
 				else if (rpm >= shiftLight2Value)
 				{
-					shift1.setBackgroundResource(R.drawable.green_light);
-					shift2.setBackgroundResource(R.drawable.green_light);
-					shift3.setBackgroundResource(R.drawable.off_light);
-					shift4.setBackgroundResource(R.drawable.off_light);
-					shift5.setBackgroundResource(R.drawable.off_light);
+					shift1.setImageResource(R.drawable.green_light);
+					shift2.setImageResource(R.drawable.green_light);
+					shift3.setImageResource(R.drawable.off_light);
+					shift4.setImageResource(R.drawable.off_light);
+					shift5.setImageResource(R.drawable.off_light);
 				}
 				else
 				{
-					shift1.setBackgroundResource(R.drawable.green_light);
-					shift2.setBackgroundResource(R.drawable.off_light);
-					shift3.setBackgroundResource(R.drawable.off_light);
-					shift4.setBackgroundResource(R.drawable.off_light);
-					shift5.setBackgroundResource(R.drawable.off_light);
+					shift1.setImageResource(R.drawable.green_light);
+					shift2.setImageResource(R.drawable.off_light);
+					shift3.setImageResource(R.drawable.off_light);
+					shift4.setImageResource(R.drawable.off_light);
+					shift5.setImageResource(R.drawable.off_light);
 				}
 			}
 			else if (shiftLightOn) {
-				shift1.setBackgroundResource(R.drawable.off_light);
-				shift2.setBackgroundResource(R.drawable.off_light);
-				shift3.setBackgroundResource(R.drawable.off_light);
-				shift4.setBackgroundResource(R.drawable.off_light);
-				shift5.setBackgroundResource(R.drawable.off_light);
+				shift1.setImageResource(R.drawable.off_light);
+				shift2.setImageResource(R.drawable.off_light);
+				shift3.setImageResource(R.drawable.off_light);
+				shift4.setImageResource(R.drawable.off_light);
+				shift5.setImageResource(R.drawable.off_light);
 				shiftLightOn = false;
 			}
 

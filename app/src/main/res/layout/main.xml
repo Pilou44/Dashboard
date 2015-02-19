@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/background"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -11,69 +12,81 @@
         android:id="@+id/shift_lights"
 	    android:orientation="horizontal"
 	    android:layout_width="fill_parent"
-	    android:layout_height="55px"
+	    android:layout_height="wrap_content"
 		android:gravity="center"
 	    >
 	    <ImageView  
 			android:id="@+id/shift1"
-			android:layout_width="50px" 
-			android:layout_height="50px" 
-			android:background="@drawable/off_light"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-			 />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/off_light"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            tools:ignore="ContentDescription" />
 	    <ImageView  
 			android:id="@+id/shift2"
-			android:layout_width="50px" 
-			android:layout_height="50px" 
-			android:background="@drawable/off_light"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-			 />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/off_light"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            tools:ignore="ContentDescription" />
 	    <ImageView  
 			android:id="@+id/shift3"
-			android:layout_width="50px" 
-			android:layout_height="50px" 
-			android:background="@drawable/off_light"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-			 />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/off_light"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            tools:ignore="ContentDescription" />
 	    <ImageView  
 			android:id="@+id/shift4"
-			android:layout_width="50px" 
-			android:layout_height="50px" 
-			android:background="@drawable/off_light"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-			 />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/off_light"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            tools:ignore="ContentDescription" />
 	    <ImageView  
 			android:id="@+id/shift5"
-			android:layout_width="50px" 
-			android:layout_height="50px" 
-			android:background="@drawable/off_light"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-			 />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/off_light"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            tools:ignore="ContentDescription" />
 	</LinearLayout>
 
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
 	    >
         <ImageView
             android:id="@+id/anim"
-            android:layout_width="370px"
-            android:layout_height="407px"
-            android:background="@drawable/sonic_stand"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitStart"
+            android:src="@drawable/sonic_stand"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            tools:ignore="ContentDescription"
             />
         <TextView
             android:id="@+id/load"
-            android:layout_width="200px"
+            android:layout_width="133dp"
             android:layout_height="wrap_content"
             android:text="@string/init_load"
-            android:textSize="50px"
+            android:textSize="33sp"
             android:textColor="@color/text"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/anim"
@@ -88,14 +101,14 @@
             android:gravity="center"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="5px"
+            android:layout_marginRight="3dp"
             >
             <TextView
                 android:id="@+id/rpm"
-                android:layout_width="200px"
+                android:layout_width="133dp"
                 android:layout_height="fill_parent"
                 android:text="@string/init_rpm"
-                android:textSize="70px"
+                android:textSize="46sp"
                 android:gravity="center_vertical|right"
                 android:textColor="@color/text"
                 />
@@ -104,48 +117,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:text="@string/unit_rpm"
-                android:textSize="20px"
+                android:textSize="13sp"
                 android:gravity="center"
                 android:textColor="@color/text"
-                android:layout_marginTop="16px"
+                android:layout_marginTop="10dp"
                 />
         </LinearLayout>
 
         <TextView
             android:id="@+id/temp"
-            android:layout_width="200px"
+            android:layout_width="133dp"
             android:layout_height="wrap_content"
             android:text="@string/init_temp"
-            android:textSize="50px"
+            android:textSize="33sp"
             android:gravity="center_vertical|right"
             android:textColor="@color/warning"
             android:layout_alignParentRight="true"
             android:layout_above="@id/layout_rpm"
-            android:layout_marginRight="5px"
+            android:layout_marginRight="3dp"
             />
 
         <TextView
             android:id="@+id/voltage"
-            android:layout_width="200px"
+            android:layout_width="133dp"
             android:layout_height="wrap_content"
             android:text="@string/init_voltage"
-            android:textSize="50px"
+            android:textSize="33sp"
             android:gravity="center_vertical|right"
             android:textColor="@color/text"
             android:layout_alignParentRight="true"
             android:layout_above="@id/temp"
-            android:layout_marginRight="5px"
+            android:layout_marginRight="3dp"
             />
 
         <LinearLayout
-            android:layout_width="350px"
-            android:layout_height="350px"
+            android:layout_width="233dp"
+            android:layout_height="233dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true">
             <com.freak.dashboard.mano.Manometer
                 android:id="@+id/mano"
-                android:layout_width="550px"
-                android:layout_height="550px" />
+                android:layout_width="366dp"
+                android:layout_height="366dp" />
         </LinearLayout>
 
     </RelativeLayout>
