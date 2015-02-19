@@ -152,7 +152,7 @@ public class Dashboard extends Activity {
 		dangerColor = settings.getInt(DashboardSettings.KEY_DANGER_COLOR, getResources().getColor(R.color.danger));
 		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
 		maxCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MAX_COOL_TEMP, "" + getResources().getInteger(R.integer.max_cool_temp)));
-        mano.setValues(PERIOD, 0, getResources().getInteger(R.integer.shift_light_5), -10, 100);
+        mano.setValues(PERIOD, 0, getResources().getInteger(R.integer.shift_light_5), 3, -10, 100);
         mano.setHandColor(dangerColor);
         mano.setManoColor(textColor);
 

@@ -7,22 +7,13 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.Vector;
+
 public class ManoBackView extends View {
 
     private Paint mManoPaint;
     private Paint mTextPaint;
-    private double mCosMin;
-    private double mSinMin;
-    private double mCosMax;
-    private double mSinMax;
-    private double mCosMed1;
-    private double mSinMed1;
-    private double mCosMed2;
-    private double mSinMed2;
-    private int mValueMin;
-    private int mValueMax;
-    private int mValueMed1;
-    private int mValueMed2;
+    private Vector<ManoPosition> positions;
 
     public ManoBackView(Context context) {
         super(context);
@@ -48,8 +39,10 @@ public class ManoBackView extends View {
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.BLUE);
         mTextPaint.setStrokeWidth(1);
-        mTextPaint.setStyle(Paint.Style.STROKE);
-        mTextPaint.setTextSize(24);
+        mTextPaint.setStyle(Paint.Style.FILL);
+        mTextPaint.setTextSize(26);
+
+        positions = new Vector<>();
     }
 
     public void setColor(int color) {
@@ -67,52 +60,30 @@ public class ManoBackView extends View {
 
         canvas.drawCircle(centerX, centerY, radius, mManoPaint);
 
-        double minX1 = centerX - (radius * mCosMin);
-        double minX2 = centerX - ((radius - 20) * mCosMin);
-        double minY1 = centerY - (radius * mSinMin);
-        double minY2 = centerY - ((radius - 20) * mSinMin);
-
-        double maxX1 = centerX - (radius * mCosMax);
-        double maxX2 = centerX - ((radius - 20) * mCosMax);
-        double maxY1 = centerY - (radius * mSinMax);
-        double maxY2 = centerY - ((radius - 20) * mSinMax);
-
-        double med1X1 = centerX - (radius * mCosMed1);
-        double med1X2 = centerX - ((radius - 20) * mCosMed1);
-        double med1Y1 = centerY - (radius * mSinMed1);
-        double med1Y2 = centerY - ((radius - 20) * mSinMed1);
-
-        double med2X1 = centerX - (radius * mCosMed2);
-        double med2X2 = centerX - ((radius - 20) * mCosMed2);
-        double med2Y1 = centerY - (radius * mSinMed2);
-        double med2Y2 = centerY - ((radius - 20) * mSinMed2);
-
-        canvas.drawLine((float)minX1, (float)minY1, (float)minX2, (float)minY2, mManoPaint);
-        canvas.drawLine((float)maxX1, (float)maxY1, (float)maxX2, (float)maxY2, mManoPaint);
-        canvas.drawLine((float)med1X1, (float)med1Y1, (float)med1X2, (float)med1Y2, mManoPaint);
-        canvas.drawLine((float)med2X1, (float)med2Y1, (float)med2X2, (float)med2Y2, mManoPaint);
-
-        canvas.drawText("" + mValueMin, (float)minX2 + 5, (float)minY2 + 5, mTextPaint);
-        canvas.drawText("" + mValueMed1, (float)med1X2 + 5, (float)med1Y2 + 10, mTextPaint);
-        canvas.drawText("" + mValueMed2, (float)med2X2 - 20, (float)med2Y2 + 20, mTextPaint);
-        canvas.drawText("" + mValueMax, (float)maxX2 - 25, (float)maxY2 + 20, mTextPaint);
+        for (int i = 0 ; i < positions.size() ; i++){
+            positions.get(i).calculatePosition(radius, radius - 20, centerX, mTextPaint.getTextSize());
+            canvas.drawLine(positions.get(i).getX1(), positions.get(i).getY1(), positions.get(i).getX2(), positions.get(i).getY2(), mManoPaint);
+            canvas.drawText(positions.get(i).getValue(), positions.get(i).getXText(), positions.get(i).getYText(), mTextPaint);
+       }
     }
 
+    public void setValues(int valueMin, int valueMax, int nbIntermediates, int angleMin, int angleMax) {
+        positions.removeAllElements();
 
-    public void setValues(int valueMin, int valueMax, int angleMin, int angleMax) {
-        mValueMin = valueMin;
-        mValueMax = valueMax;
-        mValueMed1 = (valueMax - valueMin) / 3 + valueMin;
-        mValueMed2 = (valueMax - valueMin) * 2 / 3 + valueMin;
-        double angleMed1 = (((double)angleMax - (double)angleMin) / 3) + (double)angleMin;
-        double angleMed2 = (((double)angleMax - (double)angleMin) * 2 / 3) + (double)angleMin;
-        mCosMin = Math.cos(Math.toRadians(angleMin));
-        mSinMin = Math.sin(Math.toRadians(angleMin));
-        mCosMax = Math.cos(Math.toRadians(angleMax));
-        mSinMax = Math.sin(Math.toRadians(angleMax));
-        mCosMed1 = Math.cos(Math.toRadians(angleMed1));
-        mSinMed1 = Math.sin(Math.toRadians(angleMed1));
-        mCosMed2 = Math.cos(Math.toRadians(angleMed2));
-        mSinMed2 = Math.sin(Math.toRadians(angleMed2));
+        double cosMin = Math.cos(Math.toRadians(angleMin));
+        double sinMin = Math.sin(Math.toRadians(angleMin));
+        positions.add(new ManoPosition(cosMin, sinMin, "" + valueMin));
+
+        for (int i = 0 ; i < nbIntermediates ; i++) {
+            int value = (valueMax - valueMin) * (i + 1) / (nbIntermediates + 1) + valueMin;
+            double angle = ((double)angleMax - (double)angleMin) * (i + 1) / (nbIntermediates + 1) + (double)angleMin;
+            double cos = Math.cos(Math.toRadians(angle));
+            double sin = Math.sin(Math.toRadians(angle));
+            positions.add(new ManoPosition(cos, sin, "" + value));
+        }
+
+        double cosMax = Math.cos(Math.toRadians(angleMax));
+        double sinMax = Math.sin(Math.toRadians(angleMax));
+        positions.add(new ManoPosition(cosMax, sinMax, "" + valueMax));
     }
 }
