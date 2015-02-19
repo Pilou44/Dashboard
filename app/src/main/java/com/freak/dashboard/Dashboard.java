@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.freak.dashboard.DashboardService.LocalBinder;
 import com.freak.dashboard.mano.Manometer;
+import com.freak.dashboard.shiftlights.ShiftLightsManager;
 
 public class Dashboard extends Activity {
 
@@ -42,12 +43,6 @@ public class Dashboard extends Activity {
 	private int highLoadValue;
 	private int mediumLoadValue;
 	private int lowLoadValue;
-	
-	private int shiftLight1Value;
-	private int shiftLight2Value;
-	private int shiftLight3Value;
-	private int shiftLight4Value;
-	private int shiftLight5Value;
 	
 	private int textColor;
 	private int warningColor;
@@ -74,15 +69,10 @@ public class Dashboard extends Activity {
 	private int[] animEnCours = SonicAnimation.sonic_wait;
 	private int indexAnim = 0;
 
-	private boolean shiftLightOn;
-	private ImageView shift1;
-	private ImageView shift2;
-	private ImageView shift3;
-	private ImageView shift4;
-	private ImageView shift5;
 	private Manometer mano;
+    private ShiftLightsManager shiftManager;
 
-	/** Called when the activity is first created. */
+    /** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		if (DEBUG)
@@ -107,11 +97,12 @@ public class Dashboard extends Activity {
 
 		animation = (ImageView) findViewById(R.id.anim);
 
-		shift1 = (ImageView) findViewById(R.id.shift1);
-		shift2 = (ImageView) findViewById(R.id.shift2);
-		shift3 = (ImageView) findViewById(R.id.shift3);
-		shift4 = (ImageView) findViewById(R.id.shift4);
-		shift5 = (ImageView) findViewById(R.id.shift5);
+        ImageView shift1 = (ImageView) findViewById(R.id.shift1);
+        ImageView shift2 = (ImageView) findViewById(R.id.shift2);
+        ImageView shift3 = (ImageView) findViewById(R.id.shift3);
+        ImageView shift4 = (ImageView) findViewById(R.id.shift4);
+        ImageView shift5 = (ImageView) findViewById(R.id.shift5);
+        shiftManager = new ShiftLightsManager( new ImageView[]{shift1, shift2, shift3, shift4, shift5});
 
         mano = (Manometer) findViewById(R.id.mano);
 
@@ -133,8 +124,6 @@ public class Dashboard extends Activity {
 		Intent intent = new Intent(this, DashboardService.class);
 		successfulBind = bindService(intent, connection, 0);
 
-		shiftLightOn = false;
-		
 		// Load preferences
 		if (DEBUG)
 			Log.d(TAG, "Load Preferences");
@@ -142,12 +131,15 @@ public class Dashboard extends Activity {
 		highLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_HIGH_LOAD, "" + getResources().getInteger(R.integer.high_load)));
 		mediumLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_MEDIUM_LOAD, "" + getResources().getInteger(R.integer.medium_load)));
 		lowLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_LOW_LOAD, "" + getResources().getInteger(R.integer.low_load)));
-		shiftLight1Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_1, "" + getResources().getInteger(R.integer.shift_light_1)));
-		shiftLight2Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_2, "" + getResources().getInteger(R.integer.shift_light_2)));
-		shiftLight3Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_3, "" + getResources().getInteger(R.integer.shift_light_3)));
-		shiftLight4Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_4, "" + getResources().getInteger(R.integer.shift_light_4)));
-		shiftLight5Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_5, "" + getResources().getInteger(R.integer.shift_light_5)));
-		textColor = settings.getInt(DashboardSettings.KEY_TEXT_COLOR, getResources().getColor(R.color.text));
+
+        int shiftLight1Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_1, "" + getResources().getInteger(R.integer.shift_light_1)));
+        int shiftLight2Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_2, "" + getResources().getInteger(R.integer.shift_light_2)));
+        int shiftLight3Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_3, "" + getResources().getInteger(R.integer.shift_light_3)));
+        int shiftLight4Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_4, "" + getResources().getInteger(R.integer.shift_light_4)));
+        int shiftLight5Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_5, "" + getResources().getInteger(R.integer.shift_light_5)));
+        shiftManager.setValues(new int[]{shiftLight1Value, shiftLight2Value, shiftLight3Value, shiftLight4Value, shiftLight5Value}, 3, 1, 1);
+
+        textColor = settings.getInt(DashboardSettings.KEY_TEXT_COLOR, getResources().getColor(R.color.text));
 		warningColor = settings.getInt(DashboardSettings.KEY_WARNING_COLOR, getResources().getColor(R.color.warning));
 		dangerColor = settings.getInt(DashboardSettings.KEY_DANGER_COLOR, getResources().getColor(R.color.danger));
 		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
@@ -271,59 +263,7 @@ public class Dashboard extends Activity {
 				animEnCours = SonicAnimation.sonic_wait;
 
 			// Update shift lights
-			if (rpm >= shiftLight1Value) {
-				shiftLightOn = true;
-				if (rpm >= shiftLight5Value)
-				{
-					shift1.setImageResource(R.drawable.green_light);
-					shift2.setImageResource(R.drawable.green_light);
-					shift3.setImageResource(R.drawable.green_light);
-					shift4.setImageResource(R.drawable.yellow_light);
-					shift5.setImageResource(R.drawable.red_light);
-				}
-				else if (rpm >= shiftLight4Value)
-				{
-					shift1.setImageResource(R.drawable.green_light);
-					shift2.setImageResource(R.drawable.green_light);
-					shift3.setImageResource(R.drawable.green_light);
-					shift4.setImageResource(R.drawable.yellow_light);
-					shift5.setImageResource(R.drawable.off_light);
-				}
-				else if (rpm >= shiftLight3Value)
-				{
-					shift1.setImageResource(R.drawable.green_light);
-					shift2.setImageResource(R.drawable.green_light);
-					shift3.setImageResource(R.drawable.green_light);
-					shift4.setImageResource(R.drawable.off_light);
-					shift5.setImageResource(R.drawable.off_light);
-				}
-				else if (rpm >= shiftLight2Value)
-				{
-					shift1.setImageResource(R.drawable.green_light);
-					shift2.setImageResource(R.drawable.green_light);
-					shift3.setImageResource(R.drawable.off_light);
-					shift4.setImageResource(R.drawable.off_light);
-					shift5.setImageResource(R.drawable.off_light);
-				}
-				else
-				{
-					shift1.setImageResource(R.drawable.green_light);
-					shift2.setImageResource(R.drawable.off_light);
-					shift3.setImageResource(R.drawable.off_light);
-					shift4.setImageResource(R.drawable.off_light);
-					shift5.setImageResource(R.drawable.off_light);
-				}
-			}
-			else if (shiftLightOn) {
-				shift1.setImageResource(R.drawable.off_light);
-				shift2.setImageResource(R.drawable.off_light);
-				shift3.setImageResource(R.drawable.off_light);
-				shift4.setImageResource(R.drawable.off_light);
-				shift5.setImageResource(R.drawable.off_light);
-				shiftLightOn = false;
-			}
-
-
+            shiftManager.update(rpm);
 		}});
 	}
 
