@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freak.dashboard.DashboardService.LocalBinder;
+import com.freak.dashboard.animation.SonicAnimation;
+import com.freak.dashboard.animation.SpriteAnimation;
 import com.freak.dashboard.mano.Manometer;
 import com.freak.dashboard.shiftlights.ShiftLightsManager;
 
@@ -28,7 +30,6 @@ public class Dashboard extends Activity {
 	private static final String TAG = Dashboard.class.getSimpleName();
 
 	private static final long PERIOD = 500;
-	private static final long ANIMATION_PERIOD = 100;
 
 	private static final boolean DEBUG = false;
 	
@@ -40,10 +41,6 @@ public class Dashboard extends Activity {
 	int load = 0;
 	float voltage = 0;
 
-	private int highLoadValue;
-	private int mediumLoadValue;
-	private int lowLoadValue;
-	
 	private int textColor;
 	private int warningColor;
 	private int dangerColor;
@@ -53,7 +50,6 @@ public class Dashboard extends Activity {
 	
 	private Timer updateTimer;
 	private Handler handler;
-	private Handler animationHandler;
 	
 	private LinearLayout background;
 	private TextView textRPM;
@@ -63,14 +59,12 @@ public class Dashboard extends Activity {
 	private TextView textVoltage;
 	
 	private boolean successfulBind = false;
-	private Timer animationTimer;
 
 	private ImageView animation;
-	private int[] animEnCours = SonicAnimation.sonic_wait;
-	private int indexAnim = 0;
 
 	private Manometer mano;
     private ShiftLightsManager shiftManager;
+    private SpriteAnimation mAnimation;
 
     /** Called when the activity is first created. */
 	@Override
@@ -107,7 +101,6 @@ public class Dashboard extends Activity {
         mano = (Manometer) findViewById(R.id.mano);
 
 		handler = new Handler();
-		animationHandler = new Handler();
 
 	}
 
@@ -128,9 +121,6 @@ public class Dashboard extends Activity {
 		if (DEBUG)
 			Log.d(TAG, "Load Preferences");
 		SharedPreferences settings = getSharedPreferences("com.freak.dashboard_preferences", 0);
-		highLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_HIGH_LOAD, "" + getResources().getInteger(R.integer.high_load)));
-		mediumLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_MEDIUM_LOAD, "" + getResources().getInteger(R.integer.medium_load)));
-		lowLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_LOW_LOAD, "" + getResources().getInteger(R.integer.low_load)));
 
         int shiftLight1Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_1, "" + getResources().getInteger(R.integer.shift_light_1)));
         int shiftLight2Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_2, "" + getResources().getInteger(R.integer.shift_light_2)));
@@ -158,6 +148,12 @@ public class Dashboard extends Activity {
 		
 		background.setBackgroundColor(backgroundColor);
 
+        int highLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_HIGH_LOAD, "" + getResources().getInteger(R.integer.high_load)));
+        int mediumLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_MEDIUM_LOAD, "" + getResources().getInteger(R.integer.medium_load)));
+        int lowLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_LOW_LOAD, "" + getResources().getInteger(R.integer.low_load)));
+        mAnimation = new SonicAnimation(animation, lowLoadValue, mediumLoadValue, highLoadValue);
+        mAnimation.start();
+
 		if (successfulBind) {
     		// Initialize update
    			updateTimer = new Timer();
@@ -167,13 +163,6 @@ public class Dashboard extends Activity {
    			}}, 1000, PERIOD);
 		}
 		
-		// Initialize animation
-		if (DEBUG)
-			Log.d(TAG, "Initialize animation");
-		animationTimer = new Timer();
-		animationTimer.schedule(new TimerTask() { public void run() {
-			updateAnimation();
-		}}, ANIMATION_PERIOD, ANIMATION_PERIOD);
 	}
 
 
@@ -206,19 +195,11 @@ public class Dashboard extends Activity {
 			successfulBind = false;
 			unbindService(connection);
 		}
-		animationTimer.cancel();
+        mAnimation.stop();
 		super.onPause();
 	}
 
-	public void updateAnimation() {
-		animationHandler.post(new Runnable() { public void run() {
-			indexAnim++;
-			indexAnim = indexAnim%animEnCours.length;
-			animation.setImageResource(animEnCours[indexAnim]);
-		}});
 
-	}
-	
 	public void update() {
 		if (DEBUG)
 			Log.d(TAG, "Update datas");
@@ -251,16 +232,9 @@ public class Dashboard extends Activity {
 			}
 
             mano.setValue(rpm);
-			
+
 			// Update displayed animation
-			if (load >= highLoadValue)
-				animEnCours = SonicAnimation.sonic_gold;
-			else if (load >= mediumLoadValue)
-				animEnCours = SonicAnimation.sonic_run;
-			else if (load >= lowLoadValue)
-				animEnCours = SonicAnimation.sonic_walk;
-			else
-				animEnCours = SonicAnimation.sonic_wait;
+			mAnimation.setValue(load);
 
 			// Update shift lights
             shiftManager.update(rpm);
