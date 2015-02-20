@@ -65,6 +65,7 @@ public class Dashboard extends Activity {
 	private Manometer mano;
     private ShiftLightsManager shiftManager;
     private SpriteAnimation mAnimation;
+    private SharedPreferences mPreferences;
 
     /** Called when the activity is first created. */
 	@Override
@@ -102,7 +103,11 @@ public class Dashboard extends Activity {
 
 		handler = new Handler();
 
-	}
+        // Load preferences
+        if (DEBUG)
+            Log.d(TAG, "Load Preferences");
+        mPreferences = getSharedPreferences("com.freak.dashboard_preferences", 0);
+    }
 
 	@Override
 	protected void onResume() {
@@ -117,28 +122,23 @@ public class Dashboard extends Activity {
 		Intent intent = new Intent(this, DashboardService.class);
 		successfulBind = bindService(intent, connection, 0);
 
-		// Load preferences
-		if (DEBUG)
-			Log.d(TAG, "Load Preferences");
-		SharedPreferences settings = getSharedPreferences("com.freak.dashboard_preferences", 0);
-
-        int shiftLight1Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_1, "" + getResources().getInteger(R.integer.shift_light_1)));
-        int shiftLight2Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_2, "" + getResources().getInteger(R.integer.shift_light_2)));
-        int shiftLight3Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_3, "" + getResources().getInteger(R.integer.shift_light_3)));
-        int shiftLight4Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_4, "" + getResources().getInteger(R.integer.shift_light_4)));
-        int shiftLight5Value = Integer.parseInt(settings.getString(DashboardSettings.KEY_SHIFT_LIGHT_5, "" + getResources().getInteger(R.integer.shift_light_5)));
+        int shiftLight1Value = readIntegerFromPreferences(this.getString(R.string.key_shift_light_1), getResources().getInteger(R.integer.shift_light_1));
+        int shiftLight2Value = readIntegerFromPreferences(this.getString(R.string.key_shift_light_2), getResources().getInteger(R.integer.shift_light_2));
+        int shiftLight3Value = readIntegerFromPreferences(this.getString(R.string.key_shift_light_3), getResources().getInteger(R.integer.shift_light_3));
+        int shiftLight4Value = readIntegerFromPreferences(this.getString(R.string.key_shift_light_4), getResources().getInteger(R.integer.shift_light_4));
+        int shiftLight5Value = readIntegerFromPreferences(this.getString(R.string.key_shift_light_5), getResources().getInteger(R.integer.shift_light_5));
         shiftManager.setValues(new int[]{shiftLight1Value, shiftLight2Value, shiftLight3Value, shiftLight4Value, shiftLight5Value}, 3, 1, 1);
 
-        textColor = settings.getInt(DashboardSettings.KEY_TEXT_COLOR, getResources().getColor(R.color.text));
-		warningColor = settings.getInt(DashboardSettings.KEY_WARNING_COLOR, getResources().getColor(R.color.warning));
-		dangerColor = settings.getInt(DashboardSettings.KEY_DANGER_COLOR, getResources().getColor(R.color.danger));
-		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
-		maxCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MAX_COOL_TEMP, "" + getResources().getInteger(R.integer.max_cool_temp)));
+        textColor = mPreferences.getInt(this.getString(R.string.key_text_color), getResources().getColor(R.color.text));
+        warningColor = mPreferences.getInt(this.getString(R.string.key_warning_color), getResources().getColor(R.color.warning));
+        dangerColor = mPreferences.getInt(this.getString(R.string.key_danger_color), getResources().getColor(R.color.danger));
+        minCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_min_cool_temp), getResources().getInteger(R.integer.min_cool_temp));
+        maxCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_max_cool_temp), getResources().getInteger(R.integer.max_cool_temp));
         mano.setValues(PERIOD, 0, getResources().getInteger(R.integer.shift_light_5), 4, -10, 100);
         mano.setHandColor(dangerColor);
         mano.setManoColor(textColor);
 
-        int backgroundColor = settings.getInt(DashboardSettings.KEY_BACKGROUND_COLOR, getResources().getColor(R.color.background));
+        int backgroundColor = mPreferences.getInt(this.getString(R.string.key_background_color), getResources().getColor(R.color.background));
 
         textRPM.setTextColor(textColor);
 		textUnitRPM.setTextColor(textColor);
@@ -148,9 +148,9 @@ public class Dashboard extends Activity {
 		
 		background.setBackgroundColor(backgroundColor);
 
-        int highLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_HIGH_LOAD, "" + getResources().getInteger(R.integer.high_load)));
-        int mediumLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_MEDIUM_LOAD, "" + getResources().getInteger(R.integer.medium_load)));
-        int lowLoadValue = Integer.parseInt(settings.getString(DashboardSettings.KEY_LOW_LOAD, "" + getResources().getInteger(R.integer.low_load)));
+        int highLoadValue = readIntegerFromPreferences(this.getString(R.string.key_high_load), getResources().getInteger(R.integer.high_load));
+        int mediumLoadValue = readIntegerFromPreferences(this.getString(R.string.key_medium_load), getResources().getInteger(R.integer.medium_load));
+        int lowLoadValue = readIntegerFromPreferences(this.getString(R.string.key_low_load), getResources().getInteger(R.integer.low_load));
         mAnimation = new SonicAnimation(animation, lowLoadValue, mediumLoadValue, highLoadValue);
         mAnimation.start();
 
@@ -165,6 +165,14 @@ public class Dashboard extends Activity {
 		
 	}
 
+    private int readIntegerFromPreferences(String name, int defaultValue) {
+        try {
+            return Integer.parseInt(mPreferences.getString(name, "" + defaultValue));
+        }
+        catch (NumberFormatException e){
+            return defaultValue;
+        }
+    }
 
 	/**
 	 * Bits of service code. You usually won't need to change this.

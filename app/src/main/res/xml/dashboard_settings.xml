@@ -18,12 +18,12 @@
         android:title="@string/settings_name">
         
     <PreferenceCategory
-        android:key="load"
+        android:key="@string/key_load"
         android:title="@string/engine_load">
 
 	    <EditTextPreference 
 		    android:defaultValue="@integer/high_load" 
-		    android:key="high_load" 
+		    android:key="@string/key_high_load"
 		    android:title="@string/high_load" 
 		    android:summary="@string/high_load_desc" 
 		    android:inputType="number"
@@ -31,7 +31,7 @@
 	    	
 	    <EditTextPreference 
 		    android:defaultValue="@integer/medium_load" 
-		    android:key="medium_load" 
+		    android:key="@string/key_medium_load"
 		    android:title="@string/medium_load" 
 		    android:summary="@string/medium_load_desc" 
 		    android:inputType="number"
@@ -39,7 +39,7 @@
 	    	
 	    <EditTextPreference 
 		    android:defaultValue="@integer/low_load" 
-		    android:key="low_load" 
+		    android:key="@string/key_low_load"
 		    android:title="@string/low_load" 
 		    android:summary="@string/low_load_desc" 
 		    android:inputType="number"
@@ -48,40 +48,40 @@
     </PreferenceCategory>
     	
     <PreferenceCategory
-        android:key="shift_light"
+        android:key="@string/key_shift_light"
         android:title="@string/shift_light">
 
 	    <EditTextPreference 
 		    android:defaultValue="@integer/shift_light_1" 
-		    android:key="shift_light_1" 
+		    android:key="@string/key_shift_light_1"
 		    android:title="@string/shift_light_1" 
 		    android:summary="@string/shift_light_1_desc" 
 		    android:inputType="number"
 	    	/>
 	    <EditTextPreference 
 		    android:defaultValue="@integer/shift_light_2" 
-		    android:key="shift_light_2" 
+		    android:key="@string/key_shift_light_2"
 		    android:title="@string/shift_light_2" 
 		    android:summary="@string/shift_light_2_desc" 
 		    android:inputType="number"
 	    	/>
 	    <EditTextPreference 
 		    android:defaultValue="@integer/shift_light_3" 
-		    android:key="shift_light_3" 
+		    android:key="@string/key_shift_light_3"
 		    android:title="@string/shift_light_3" 
 		    android:summary="@string/shift_light_3_desc" 
 		    android:inputType="number"
 	    	/>
 	    <EditTextPreference 
 		    android:defaultValue="@integer/shift_light_4" 
-		    android:key="shift_light_4" 
+		    android:key="@string/key_shift_light_4"
 		    android:title="@string/shift_light_4" 
 		    android:summary="@string/shift_light_4_desc" 
 		    android:inputType="number"
 	    	/>
 	    <EditTextPreference 
 		    android:defaultValue="@integer/shift_light_5" 
-		    android:key="shift_light_5" 
+		    android:key="@string/key_shift_light_5"
 		    android:title="@string/shift_light_5" 
 		    android:summary="@string/shift_light_5_desc" 
 		    android:inputType="number"
@@ -90,19 +90,19 @@
     </PreferenceCategory>
     	
     <PreferenceCategory
-        android:key="coolant_temperature"
+        android:key="@string/key_coolant_temperature"
         android:title="@string/coolant_temperature">
 
 	    <EditTextPreference 
 		    android:defaultValue="@integer/min_cool_temp" 
-		    android:key="min_cool_temp" 
+		    android:key="@string/key_min_cool_temp"
 		    android:title="@string/min_cool_temp" 
 		    android:summary="@string/min_cool_temp_desc" 
 		    android:inputType="number"
 	    	/>
 	    <EditTextPreference 
 		    android:defaultValue="@integer/max_cool_temp" 
-		    android:key="max_cool_temp" 
+		    android:key="@string/key_max_cool_temp"
 		    android:title="@string/max_cool_temp" 
 		    android:summary="@string/max_cool_temp_desc" 
 		    android:inputType="number"
@@ -111,31 +111,31 @@
 	</PreferenceCategory>
 
     <PreferenceCategory
-        android:key="colors"
+        android:key="@string/key_colors"
         android:title="@string/colors">
 	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="text_color"
+                android:key="@string/key_text_color"
                 android:defaultValue="@color/text" 
                 android:title="@string/normal_text_color" />
 	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="warning_color"
+                android:key="@string/key_warning_color"
                 android:defaultValue="@color/warning" 
                 android:title="@string/warning_text_color" />
 	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="danger_color"
+                android:key="@string/key_danger_color"
                 android:defaultValue="@color/danger" 
                 android:title="@string/danger_text_color" />
 	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="background_color"
+                android:key="@string/key_background_color"
                 android:defaultValue="@color/background" 
                 android:title="@string/background_color" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="general"
+        android:key="@string/key_general"
         android:title="@string/general">
 	    <CheckBoxPreference 
-	        android:key="start_on_boot" 
+	        android:key="@string/key_start_on_boot"
 	        android:title="@string/start_on_boot" />
     </PreferenceCategory>
 

@@ -132,10 +132,10 @@ public class DashboardService extends Service {
 	private ServiceConnection connection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName arg0, IBinder service) {
 			torqueService = ITorqueService.Stub.asInterface(service);
-		};
+		}
 		public void onServiceDisconnected(ComponentName name) {
 			torqueService = null;
-		};
+		}
 	};
 
 	public void update() {
@@ -202,8 +202,8 @@ public class DashboardService extends Service {
 		if (DEBUG)
 			Log.d(TAG, "Load preferences");
 		SharedPreferences settings = getSharedPreferences("com.freak.dashboard_preferences", 0);
-		minCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MIN_COOL_TEMP, "" + getResources().getInteger(R.integer.min_cool_temp)));
-		maxCoolTemp = Integer.parseInt(settings.getString(DashboardSettings.KEY_MAX_COOL_TEMP, "" + getResources().getInteger(R.integer.max_cool_temp)));
+		minCoolTemp = Integer.parseInt(settings.getString(this.getString(R.string.key_min_cool_temp), "" + getResources().getInteger(R.integer.min_cool_temp)));
+		maxCoolTemp = Integer.parseInt(settings.getString(this.getString(R.string.key_max_cool_temp), "" + getResources().getInteger(R.integer.max_cool_temp)));
 	}
 	
 	
