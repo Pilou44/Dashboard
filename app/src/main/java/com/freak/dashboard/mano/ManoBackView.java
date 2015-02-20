@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -13,7 +14,9 @@ public class ManoBackView extends View {
 
     private Paint mManoPaint;
     private Paint mTextPaint;
+    private Paint mRedZonePaint;
     private Vector<ManoPosition> positions;
+    private int mAngleMax;
 
     public ManoBackView(Context context) {
         super(context);
@@ -35,6 +38,11 @@ public class ManoBackView extends View {
         mManoPaint.setColor(Color.BLUE);
         mManoPaint.setStrokeWidth(5);
         mManoPaint.setStyle(Paint.Style.STROKE);
+
+        mRedZonePaint = new Paint();
+        mRedZonePaint.setColor(Color.RED);
+        mRedZonePaint.setStrokeWidth(10);
+        mRedZonePaint.setStyle(Paint.Style.STROKE);
 
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.BLUE);
@@ -58,6 +66,9 @@ public class ManoBackView extends View {
         int centerY = this.getHeight()/2;
         int radius = centerX -10;
 
+        float margin = (this.getWidth() - (radius * 2)) / 2 + mManoPaint.getStrokeWidth() / 2 + mRedZonePaint.getStrokeWidth() / 2;
+        RectF rect = new RectF(margin, margin, this.getWidth() - margin, this.getHeight() - margin);
+        canvas.drawArc(rect, 180 + mAngleMax, 45, false, mRedZonePaint);
         canvas.drawCircle(centerX, centerY, radius, mManoPaint);
 
         for (int i = 0 ; i < positions.size() ; i++){
@@ -68,6 +79,7 @@ public class ManoBackView extends View {
     }
 
     public void setValues(int valueMin, int valueMax, int nbIntermediates, int angleMin, int angleMax) {
+        mAngleMax = angleMax;
         positions.removeAllElements();
 
         double cosMin = Math.cos(Math.toRadians(angleMin));
