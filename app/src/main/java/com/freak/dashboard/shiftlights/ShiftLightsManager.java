@@ -59,8 +59,8 @@ public class ShiftLightsManager {
             for (int i = 0; i < mImages.length; i++) {
                 switchOff(i);
             }
+            mShiftLightOn = false;
         }
-        mShiftLightOn = false;
     }
 
     private void switchOff(int i) {
