@@ -201,7 +201,7 @@ public class DashboardService extends Service {
 	public void reload() {
 		if (DEBUG)
 			Log.d(TAG, "Load preferences");
-		SharedPreferences settings = getSharedPreferences("com.freak.dashboard_preferences", 0);
+		SharedPreferences settings = getSharedPreferences(this.getString(R.string.key_preferences), 0);
 		minCoolTemp = Integer.parseInt(settings.getString(this.getString(R.string.key_min_cool_temp), "" + getResources().getInteger(R.integer.min_cool_temp)));
 		maxCoolTemp = Integer.parseInt(settings.getString(this.getString(R.string.key_max_cool_temp), "" + getResources().getInteger(R.integer.max_cool_temp)));
 	}

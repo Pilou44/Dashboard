@@ -10,7 +10,7 @@ public class BootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-			SharedPreferences settings = context.getSharedPreferences("com.freak.dashboard_preferences", 0);
+			SharedPreferences settings = context.getSharedPreferences(context.getString(R.string.key_preferences), 0);
 			if (settings.getBoolean(context.getString(R.string.start_on_boot), false))
 			{
 	            Intent dashboardIntent = new Intent(context, Dashboard.class);

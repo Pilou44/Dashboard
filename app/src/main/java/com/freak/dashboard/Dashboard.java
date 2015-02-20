@@ -106,7 +106,7 @@ public class Dashboard extends Activity {
         // Load preferences
         if (DEBUG)
             Log.d(TAG, "Load Preferences");
-        mPreferences = getSharedPreferences("com.freak.dashboard_preferences", 0);
+        mPreferences = getSharedPreferences(this.getString(R.string.key_preferences), 0);
     }
 
 	@Override

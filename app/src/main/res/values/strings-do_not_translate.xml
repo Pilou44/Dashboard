@@ -28,4 +28,5 @@
     <string name="key_max_cool_temp" translatable="false">"max_cool_temp"</string>
     <string name="key_general" translatable="false">"general"</string>
     <string name="key_start_on_boot" translatable="false">"start_on_boot"</string>
+    <string name="key_preferences" translatable="false">com.freak.dashboard_preferences</string>
 </resources>
