@@ -31,17 +31,17 @@ public class Manometer extends RelativeLayout {
         this.addView(mHandView);
     }
 
-    public void setValues(long period, int valueMin, int valueMax, int nbIntermediates, int angleMin, int angleMax) {
+    public void setValues(long period, int valueMin, int valueMax, int nbIntermediates, int angleMin, int angleMax, int redZoneStart, int redZoneSize) {
         mHandView.setValues(period, valueMax, angleMin, angleMax);
-        mBackView.setValues(valueMin, valueMax, nbIntermediates, angleMin, angleMax);
+        mBackView.setValues(valueMin, valueMax, nbIntermediates, angleMin, angleMax, redZoneStart, redZoneSize);
     }
 
     public void setHandColor(int color) {
         mHandView.setColor(color);
     }
 
-    public void setManoColor(int color) {
-        mBackView.setColor(color);
+    public void setManoColor(int backColor, int redZoneColor) {
+        mBackView.setColor(backColor, redZoneColor);
     }
 
     public void setValue(int value) {

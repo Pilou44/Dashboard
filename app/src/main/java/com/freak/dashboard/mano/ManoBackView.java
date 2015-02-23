@@ -16,7 +16,8 @@ public class ManoBackView extends View {
     private Paint mTextPaint;
     private Paint mRedZonePaint;
     private Vector<ManoPosition> positions;
-    private int mAngleMax;
+    private int mRedZoneStart;
+    private int mRedZoneSize;
 
     public ManoBackView(Context context) {
         super(context);
@@ -53,9 +54,10 @@ public class ManoBackView extends View {
         positions = new Vector<>();
     }
 
-    public void setColor(int color) {
-        mManoPaint.setColor(color);
-        mTextPaint.setColor(color);
+    public void setColor(int backColor, int redZoneColor) {
+        mManoPaint.setColor(backColor);
+        mTextPaint.setColor(backColor);
+        mRedZonePaint.setColor(redZoneColor);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class ManoBackView extends View {
 
         float margin = (this.getWidth() - (radius * 2)) / 2 + mManoPaint.getStrokeWidth() / 2 + mRedZonePaint.getStrokeWidth() / 2;
         RectF rect = new RectF(margin, margin, this.getWidth() - margin, this.getHeight() - margin);
-        canvas.drawArc(rect, 180 + mAngleMax, 45, false, mRedZonePaint);
+        canvas.drawArc(rect, 180 + mRedZoneStart, mRedZoneSize, false, mRedZonePaint);
         canvas.drawCircle(centerX, centerY, radius, mManoPaint);
 
         for (int i = 0 ; i < positions.size() ; i++){
@@ -78,8 +80,8 @@ public class ManoBackView extends View {
        }
     }
 
-    public void setValues(int valueMin, int valueMax, int nbIntermediates, int angleMin, int angleMax) {
-        mAngleMax = angleMax;
+    public void setValues(int valueMin, int valueMax, int nbIntermediates, int angleMin, int angleMax, int redZoneStart, int redZoneSize) {
+        mRedZoneSize = redZoneSize;
         positions.removeAllElements();
 
         double cosMin = Math.cos(Math.toRadians(angleMin));
@@ -93,6 +95,9 @@ public class ManoBackView extends View {
             double sin = Math.sin(Math.toRadians(angle));
             positions.add(new ManoPosition(cos, sin, "" + value));
         }
+
+        int offset = 0 - angleMin;
+        mRedZoneStart = ((redZoneStart * (angleMax + offset)) / valueMax) - offset;
 
         double cosMax = Math.cos(Math.toRadians(angleMax));
         double sinMax = Math.sin(Math.toRadians(angleMax));
