@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <integer name="speed_at_3000_in_1st">25</integer>
-    <integer name="speed_at_3000_in_2nd">45</integer>
-    <integer name="speed_at_3000_in_3rd">60</integer>
-    <integer name="speed_at_3000_in_4th">70</integer>
-    <integer name="speed_at_3000_in_5th">95</integer>
     <integer name="high_load">35</integer>
     <integer name="medium_load">15</integer>
     <integer name="low_load">3</integer>
