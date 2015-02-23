@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class DashboardService extends Service {
@@ -102,14 +103,18 @@ public class DashboardService extends Service {
 		status = STATUS_OK;
 		notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE); 
 		final String notificationTitle = getResources().getString(R.string.app_name); 
-		final String notificationDesc = getResources().getString(R.string.notification_desc);        
-		notification = new Notification(R.drawable.notif_icon, notificationTitle, System.currentTimeMillis());
-		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		final String notificationDesc = getResources().getString(R.string.notification_desc);
 		Intent notificationIntent = new Intent(this, Dashboard.class);
 		notificationIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, notificationTitle, notificationDesc, pendingIntent); 
-		notificationManager.notify(NOTIFICATION_ID, notification); 
+        notification = new NotificationCompat.Builder(this)
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationDesc)
+                .setSmallIcon(R.drawable.notif_icon)
+                .setContentIntent(pendingIntent)
+                .build();
+        notification.flags = Notification.FLAG_ONGOING_EVENT;
+        notificationManager.notify(NOTIFICATION_ID, notification);
 		
 		super.onCreate();
 	}
