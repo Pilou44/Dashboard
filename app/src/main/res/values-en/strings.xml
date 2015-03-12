@@ -25,12 +25,21 @@
     <string name="shift_light_4_desc">At which engine speed should the 4th shift light be on</string>
     <string name="shift_light_5">Fifth shift light</string>
     <string name="shift_light_5_desc">At which engine speed should the 5th shift light be on</string>
+
+    <!-- Colors -->
     <string name="colors">Colors</string>
     <string name="normal_text_color">Text color</string>
-    <string name="warning_text_color">Warning color</string>
-    <string name="danger_text_color">Danger color</string>
+    <string name="warning_text_color">Warning text color</string>
+    <string name="danger_text_color">Danger text color</string>
     <string name="background_color">Background color</string>
     <string name="background_picture">Background picture</string>
+    <string name="check_mano_color">Use specific color for manometer</string>
+    <string name="mano_color">Manometer color</string>
+    <string name="check_red_zone_color">Use specific color for manometer\'s red zone</string>
+    <string name="red_zone_color">Red zone color</string>
+    <string name="check_hand_color">Use specific color for manometer\'s hand</string>
+    <string name="hand_color">Hand color</string>
+
     <string name="coolant_temperature">Engine coolant temperature</string>
     <string name="min_cool_temp">Minimum value</string>
     <string name="min_cool_temp_desc">Minimum value under which temperature is displayed with warning color</string>

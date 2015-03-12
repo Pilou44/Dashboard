@@ -138,9 +138,31 @@ public class Dashboard extends Activity {
         dangerColor = mPreferences.getInt(this.getString(R.string.key_danger_color), getResources().getColor(R.color.danger));
         minCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_min_cool_temp), getResources().getInteger(R.integer.min_cool_temp));
         maxCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_max_cool_temp), getResources().getInteger(R.integer.max_cool_temp));
+
+        int manoColor;
+        if (mPreferences.getBoolean(getString(R.string.key_check_mano_color), false)) {
+            manoColor = mPreferences.getInt(getString(R.string.key_mano_color), getResources().getColor(R.color.text));
+        }
+        else {
+            manoColor = textColor;
+        }
+        int redZoneColor;
+        if (mPreferences.getBoolean(getString(R.string.key_check_red_zone_color), false)) {
+            redZoneColor = mPreferences.getInt(getString(R.string.key_red_zone_color), getResources().getColor(R.color.danger));
+        }
+        else {
+            redZoneColor = dangerColor;
+        }
+        int handColor;
+        if (mPreferences.getBoolean(getString(R.string.key_check_hand_color), false)) {
+            handColor = mPreferences.getInt(getString(R.string.key_hand_color), getResources().getColor(R.color.danger));
+        }
+        else {
+            handColor = dangerColor;
+        }
         mano.setValues(PERIOD, 0, shiftLight5Value, 4, -10, 100, shiftLight5Value, 45);
-        mano.setHandColor(dangerColor);
-        mano.setManoColor(textColor, dangerColor);
+        mano.setHandColor(handColor);
+        mano.setManoColor(manoColor, redZoneColor);
 
         textRPM.setTextColor(textColor);
 		textUnitRPM.setTextColor(textColor);

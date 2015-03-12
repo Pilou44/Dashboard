@@ -125,6 +125,36 @@
             android:key="@string/key_danger_color"
             android:defaultValue="@color/danger"
             android:title="@string/danger_text_color" />
+        <CheckBoxPreference
+            android:key="@string/key_check_mano_color"
+            android:defaultValue="false"
+            android:title="@string/mano_color"
+            android:summary="@string/check_mano_color" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_mano_color"
+            android:dependency="@string/key_check_mano_color"
+            android:defaultValue="@color/text"
+            android:title="@string/mano_color" />
+        <CheckBoxPreference
+            android:key="@string/key_check_red_zone_color"
+            android:defaultValue="false"
+            android:title="@string/red_zone_color"
+            android:summary="@string/check_red_zone_color" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_red_zone_color"
+            android:dependency="@string/key_check_red_zone_color"
+            android:defaultValue="@color/danger"
+            android:title="@string/red_zone_color" />
+        <CheckBoxPreference
+            android:key="@string/key_check_hand_color"
+            android:defaultValue="false"
+            android:title="@string/hand_color"
+            android:summary="@string/check_hand_color" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_hand_color"
+            android:dependency="@string/key_check_hand_color"
+            android:defaultValue="@color/danger"
+            android:title="@string/hand_color" />
 	    <yuku.ambilwarna.widget.AmbilWarnaPreference
             android:key="@string/key_background_color"
             android:defaultValue="@color/background"

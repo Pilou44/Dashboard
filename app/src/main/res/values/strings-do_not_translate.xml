@@ -31,4 +31,10 @@
     <string name="key_general" translatable="false">"general"</string>
     <string name="key_start_on_boot" translatable="false">"start_on_boot"</string>
     <string name="key_preferences" translatable="false">com.freak.dashboard_preferences</string>
+    <string name="key_check_mano_color" translatable="false">check_mano_color</string>
+    <string name="key_mano_color" translatable="false">mano_color</string>
+    <string name="key_check_red_zone_color" translatable="false">check_red_zone_color</string>
+    <string name="key_red_zone_color" translatable="false">red_zone_color</string>
+    <string name="key_check_hand_color" translatable="false">check_hand_color</string>
+    <string name="key_hand_color" translatable="false">hand_color</string>
 </resources>

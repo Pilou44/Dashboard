@@ -25,12 +25,21 @@
     <string name="shift_light_4_desc">A quel régime moteur la 4ème lumière doit-elle s\'allumer</string>
     <string name="shift_light_5">Cinquième indicateur</string>
     <string name="shift_light_5_desc">A quel régime moteur la 5ème lumière doit-elle s\'allumer</string>
+
+    <!-- Colors -->
     <string name="colors">Couleurs</string>
     <string name="normal_text_color">Couleur du texte</string>
-    <string name="warning_text_color">Couleur pour un avertissement</string>
-    <string name="danger_text_color">Couleur pour un danger</string>
+    <string name="warning_text_color">Couleur du texte pour un avertissement</string>
+    <string name="danger_text_color">Couleur du texte pour un danger</string>
     <string name="background_color">Couleur du fond</string>
     <string name="background_picture">Image du fond</string>
+    <string name="check_mano_color">Utiliser une couleur spécifique pour le manomètre</string>
+    <string name="mano_color">Couleur du manomètre</string>
+    <string name="check_red_zone_color">Utiliser une couleur spécifique pour la zone rouge du manomètre</string>
+    <string name="red_zone_color">Couleur de la zone rouge</string>
+    <string name="check_hand_color">Utiliser une couleur spécifique pour l\'aiguille du manomètre</string>
+    <string name="hand_color">Couleur de l\'aiguille</string>
+
     <string name="coolant_temperature">Temperature du liquide de refroidissement</string>
     <string name="min_cool_temp">Valeur minimum</string>
     <string name="min_cool_temp_desc">Valeur sous laquelle la température est affichée avec la couleur d\'avertissement</string>
