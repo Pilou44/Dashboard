@@ -30,9 +30,17 @@
     <string name="warning_text_color">Warning color</string>
     <string name="danger_text_color">Danger color</string>
     <string name="background_color">Background color</string>
+    <string name="background_picture">Background picture</string>
     <string name="coolant_temperature">Engine coolant temperature</string>
     <string name="min_cool_temp">Minimum value</string>
     <string name="min_cool_temp_desc">Minimum value under which temperature is displayed with warning color</string>
     <string name="max_cool_temp">Maximum value</string>
     <string name="max_cool_temp_desc">Maximum value over which temperature is displayed with danger color</string>
+
+    <!-- Background -->
+    <string name="none">None</string>
+    <string name="lightning1">Lightning 1</string>
+    <string name="lightning2">Lightning 2</string>
+    <string name="other">Other</string>
+    <string name="current">Current</string>
 </resources>

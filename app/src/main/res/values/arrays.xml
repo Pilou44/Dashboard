@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="background_entries" translatable="false" >
+        <item>@string/none</item>
+        <item>@string/lightning1</item>
+        <item>@string/lightning2</item>
+        <item>@string/other</item>
+        <item>@string/current</item>
+    </string-array>
+
+    <string-array name="background_values" translatable="false" >
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>-2</item>
+        <item>-3</item>
+    </string-array>
+
+    <string-array name="background_pictures" translatable="false" >
+        <item>@drawable/lightning1</item>
+        <item>@drawable/lightning2</item>
+    </string-array>
+</resources>

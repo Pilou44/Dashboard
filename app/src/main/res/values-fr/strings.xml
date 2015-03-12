@@ -30,9 +30,17 @@
     <string name="warning_text_color">Couleur pour un avertissement</string>
     <string name="danger_text_color">Couleur pour un danger</string>
     <string name="background_color">Couleur du fond</string>
+    <string name="background_picture">Image du fond</string>
     <string name="coolant_temperature">Temperature du liquide de refroidissement</string>
     <string name="min_cool_temp">Valeur minimum</string>
     <string name="min_cool_temp_desc">Valeur sous laquelle la température est affichée avec la couleur d\'avertissement</string>
     <string name="max_cool_temp">Valeur maximum</string>
     <string name="max_cool_temp_desc">Valeur au dessus de laquelle la température est affichée comme dangereuse</string>
+
+    <!-- Background -->
+    <string name="none">Aucun</string>
+    <string name="lightning1">Eclair 1</string>
+    <string name="lightning2">Eclair 2</string>
+    <string name="other">Autre</string>
+    <string name="current">Actuel</string>
 </resources>

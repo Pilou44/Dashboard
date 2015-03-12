@@ -113,22 +113,29 @@
     <PreferenceCategory
         android:key="@string/key_colors"
         android:title="@string/colors">
-	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="@string/key_text_color"
-                android:defaultValue="@color/text" 
-                android:title="@string/normal_text_color" />
-	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="@string/key_warning_color"
-                android:defaultValue="@color/warning" 
-                android:title="@string/warning_text_color" />
-	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="@string/key_danger_color"
-                android:defaultValue="@color/danger" 
-                android:title="@string/danger_text_color" />
-	     <yuku.ambilwarna.widget.AmbilWarnaPreference
-                android:key="@string/key_background_color"
-                android:defaultValue="@color/background" 
-                android:title="@string/background_color" />
+	    <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_text_color"
+            android:defaultValue="@color/text"
+            android:title="@string/normal_text_color" />
+	    <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_warning_color"
+            android:defaultValue="@color/warning"
+            android:title="@string/warning_text_color" />
+	    <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_danger_color"
+            android:defaultValue="@color/danger"
+            android:title="@string/danger_text_color" />
+	    <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_background_color"
+            android:defaultValue="@color/background"
+            android:title="@string/background_color" />
+        <com.freak.dashboard.backgroundSettings.CustomListPreference
+            android:key="@string/key_background_picture"
+            android:title="@string/background_picture"
+            android:dialogTitle="@string/background_picture"
+            android:entries="@array/background_entries"
+            android:entryValues="@array/background_values"
+            android:defaultValue="-1" />
     </PreferenceCategory>
 
     <PreferenceCategory

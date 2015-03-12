@@ -8,6 +8,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -110,6 +113,7 @@ public class Dashboard extends Activity {
     }
 
 	@Override
+    @SuppressWarnings("deprecation")
 	protected void onResume() {
 		if (DEBUG)
 			Log.d(TAG, "onResume");
@@ -138,15 +142,38 @@ public class Dashboard extends Activity {
         mano.setHandColor(dangerColor);
         mano.setManoColor(textColor, dangerColor);
 
-        int backgroundColor = mPreferences.getInt(this.getString(R.string.key_background_color), getResources().getColor(R.color.background));
-
         textRPM.setTextColor(textColor);
 		textUnitRPM.setTextColor(textColor);
 		textLoad.setTextColor(textColor);
 		textTemp.setTextColor(textColor);
 		textVoltage.setTextColor(textColor);
-		
-		background.setBackgroundColor(backgroundColor);
+
+        int backgroundColor = mPreferences.getInt(this.getString(R.string.key_background_color), getResources().getColor(R.color.background));
+        int backgroundId = Integer.decode(mPreferences.getString(this.getString(R.string.key_background_picture), "0"));
+
+        background.setBackgroundColor(backgroundColor);
+        if (backgroundId >= 0) {
+            TypedArray imgs = getResources().obtainTypedArray(R.array.background_pictures);
+
+            if (backgroundId >= imgs.length())
+                backgroundId = imgs.length() - 1;
+            background.setBackgroundResource(imgs.getResourceId(backgroundId, -1));
+        }
+        else if (backgroundId == -3) {
+            if (DEBUG)
+                Log.d(TAG, "Set background " + mPreferences.getString(getString(R.string.key_background_path), ""));
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    background.setBackground(new BitmapDrawable(getResources(), mPreferences.getString(getString(R.string.key_background_path), "")));
+                }
+                else {
+                    background.setBackgroundDrawable(new BitmapDrawable(getResources(), mPreferences.getString(getString(R.string.key_background_path), "")));
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         int highLoadValue = readIntegerFromPreferences(this.getString(R.string.key_high_load), getResources().getInteger(R.integer.high_load));
         int mediumLoadValue = readIntegerFromPreferences(this.getString(R.string.key_medium_load), getResources().getInteger(R.integer.medium_load));

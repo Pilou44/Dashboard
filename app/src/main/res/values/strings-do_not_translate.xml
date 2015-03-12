@@ -20,9 +20,11 @@
     <string name="key_shift_light_5" translatable="false">"shift_light_5"</string>
     <string name="key_colors" translatable="false">"colors"</string>
     <string name="key_text_color" translatable="false">"text_color"</string>
-    <string name="key_warning_color" translatable="false">"warningt_color"</string>
+    <string name="key_warning_color" translatable="false">"warning_color"</string>
     <string name="key_danger_color" translatable="false">"danger_color"</string>
     <string name="key_background_color" translatable="false">"background_color"</string>
+    <string name="key_background_picture" translatable="false">"background_picture"</string>
+    <string name="key_background_path" translatable="false">"background_path"</string>
     <string name="key_coolant_temperature" translatable="false">"coolant_temperature"</string>
     <string name="key_min_cool_temp" translatable="false">"min_cool_temp"</string>
     <string name="key_max_cool_temp" translatable="false">"max_cool_temp"</string>
