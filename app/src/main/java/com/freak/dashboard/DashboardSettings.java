@@ -36,7 +36,7 @@ public class DashboardSettings extends PreferenceActivity implements SharedPrefe
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		// Bind to the dashboard service
 		Intent intent = new Intent(this, DashboardService.class);
-		boolean successfulBind = bindService(intent, connection, 0);
+		bindService(intent, connection, 0);
 		super.onPause();
 	}
 
