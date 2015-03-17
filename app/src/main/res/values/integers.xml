@@ -11,5 +11,6 @@
     <integer name="shift_light_5">5500</integer>
     <integer name="min_cool_temp">80</integer>
     <integer name="max_cool_temp">90</integer>
+    <integer name="mano_back_transparency">192</integer>
 </resources>
          

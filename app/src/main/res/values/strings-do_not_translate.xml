@@ -37,4 +37,7 @@
     <string name="key_red_zone_color" translatable="false">red_zone_color</string>
     <string name="key_check_hand_color" translatable="false">check_hand_color</string>
     <string name="key_hand_color" translatable="false">hand_color</string>
+    <string name="key_check_mano_back_color" translatable="false">check_mano_back_color</string>
+    <string name="key_mano_back_color" translatable="false">mano_back_color</string>
+    <string name="key_mano_back_transparency" translatable="false">mano_back_transparency</string>
 </resources>

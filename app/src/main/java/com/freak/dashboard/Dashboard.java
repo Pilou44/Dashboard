@@ -136,6 +136,7 @@ public class Dashboard extends Activity {
         textColor = mPreferences.getInt(this.getString(R.string.key_text_color), getResources().getColor(R.color.text));
         warningColor = mPreferences.getInt(this.getString(R.string.key_warning_color), getResources().getColor(R.color.warning));
         dangerColor = mPreferences.getInt(this.getString(R.string.key_danger_color), getResources().getColor(R.color.danger));
+        int backgroundColor = mPreferences.getInt(this.getString(R.string.key_background_color), getResources().getColor(R.color.background));
         minCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_min_cool_temp), getResources().getInteger(R.integer.min_cool_temp));
         maxCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_max_cool_temp), getResources().getInteger(R.integer.max_cool_temp));
 
@@ -160,9 +161,18 @@ public class Dashboard extends Activity {
         else {
             handColor = dangerColor;
         }
+        int backColor;
+        if (mPreferences.getBoolean(getString(R.string.key_check_mano_back_color), false)) {
+            backColor = mPreferences.getInt(getString(R.string.key_mano_back_color), getResources().getColor(R.color.background));
+        }
+        else {
+            backColor = backgroundColor;
+        }
+        int transparency = mPreferences.getInt(getString(R.string.key_mano_back_transparency), getResources().getInteger(R.integer.mano_back_transparency));
+        backColor += (transparency * 16777216);
         mano.setValues(PERIOD, 0, shiftLight5Value, 4, -10, 100, shiftLight5Value, 45);
         mano.setHandColor(handColor);
-        mano.setManoColor(manoColor, redZoneColor);
+        mano.setManoColor(manoColor, redZoneColor, backColor);
 
         textRPM.setTextColor(textColor);
 		textUnitRPM.setTextColor(textColor);
@@ -170,7 +180,6 @@ public class Dashboard extends Activity {
 		textTemp.setTextColor(textColor);
 		textVoltage.setTextColor(textColor);
 
-        int backgroundColor = mPreferences.getInt(this.getString(R.string.key_background_color), getResources().getColor(R.color.background));
         int backgroundId = Integer.decode(mPreferences.getString(this.getString(R.string.key_background_picture), "0"));
 
         background.setBackgroundColor(backgroundColor);

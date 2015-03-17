@@ -14,6 +14,7 @@ public class ManoBackView extends View {
 
     private Paint mManoPaint;
     private Paint mTextPaint;
+    private Paint mBackPaint;
     private Paint mRedZonePaint;
     private Vector<ManoPosition> positions;
     private int mRedZoneStart;
@@ -52,15 +53,20 @@ public class ManoBackView extends View {
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setTextSize(26);
 
+        mBackPaint = new Paint();
+        int back = Color.argb(192, 0, 0, 0);
+        mBackPaint.setColor(back);
+        mBackPaint.setStyle(Paint.Style.FILL);
         positions = new Vector<>();
 
         mRect = new RectF();
     }
 
-    public void setColor(int backColor, int redZoneColor) {
-        mManoPaint.setColor(backColor);
-        mTextPaint.setColor(backColor);
+    public void setColor(int manoColor, int redZoneColor, int backColor) {
+        mManoPaint.setColor(manoColor);
+        mTextPaint.setColor(manoColor);
         mRedZonePaint.setColor(redZoneColor);
+        mBackPaint.setColor(backColor);
     }
 
     @Override
@@ -74,6 +80,7 @@ public class ManoBackView extends View {
         float margin = (this.getWidth() - (radius * 2)) / 2 + mManoPaint.getStrokeWidth() / 2 + mRedZonePaint.getStrokeWidth() / 2;
         mRect.set(margin, margin, this.getWidth() - margin, this.getHeight() - margin);
         canvas.drawArc(mRect, 180 + mRedZoneStart, mRedZoneSize, false, mRedZonePaint);
+        canvas.drawCircle(centerX, centerY, radius, mBackPaint);
         canvas.drawCircle(centerX, centerY, radius, mManoPaint);
 
         for (int i = 0 ; i < positions.size() ; i++){

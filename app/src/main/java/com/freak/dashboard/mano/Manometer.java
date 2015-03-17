@@ -40,8 +40,8 @@ public class Manometer extends RelativeLayout {
         mHandView.setColor(color);
     }
 
-    public void setManoColor(int backColor, int redZoneColor) {
-        mBackView.setColor(backColor, redZoneColor);
+    public void setManoColor(int manoColor, int redZoneColor, int backColor) {
+        mBackView.setColor(manoColor, redZoneColor, backColor);
     }
 
     public void setValue(int value) {

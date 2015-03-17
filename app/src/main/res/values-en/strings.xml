@@ -39,6 +39,9 @@
     <string name="red_zone_color">Red zone color</string>
     <string name="check_hand_color">Use specific color for manometer\'s hand</string>
     <string name="hand_color">Hand color</string>
+    <string name="check_mano_back_color">Use specific color for manometer\'s background</string>
+    <string name="mano_back_color">Manometer\'s background color</string>
+    <string name="mano_back_transparency">Manometer\'s background transparency</string>
 
     <string name="coolant_temperature">Engine coolant temperature</string>
     <string name="min_cool_temp">Minimum value</string>

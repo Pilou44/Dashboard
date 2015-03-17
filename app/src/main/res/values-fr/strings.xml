@@ -39,6 +39,9 @@
     <string name="red_zone_color">Couleur de la zone rouge</string>
     <string name="check_hand_color">Utiliser une couleur spécifique pour l\'aiguille du manomètre</string>
     <string name="hand_color">Couleur de l\'aiguille</string>
+    <string name="check_mano_back_color">Utiliser une couleur spécifique pour le fond du manomètre</string>
+    <string name="mano_back_color">Couleur du fond du manomètre</string>
+    <string name="mano_back_transparency">Transparence du fond du manomètre</string>
 
     <string name="coolant_temperature">Temperature du liquide de refroidissement</string>
     <string name="min_cool_temp">Valeur minimum</string>

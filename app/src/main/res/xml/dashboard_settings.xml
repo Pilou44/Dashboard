@@ -15,7 +15,8 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-        android:title="@string/settings_name">
+    xmlns:robobunny="http://robobunny.com"
+    android:title="@string/settings_name">
         
     <PreferenceCategory
         android:key="@string/key_load"
@@ -113,6 +114,17 @@
     <PreferenceCategory
         android:key="@string/key_colors"
         android:title="@string/colors">
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_background_color"
+            android:defaultValue="@color/background"
+            android:title="@string/background_color" />
+        <com.freak.dashboard.backgroundSettings.CustomListPreference
+            android:key="@string/key_background_picture"
+            android:title="@string/background_picture"
+            android:dialogTitle="@string/background_picture"
+            android:entries="@array/background_entries"
+            android:entryValues="@array/background_values"
+            android:defaultValue="-1" />
 	    <yuku.ambilwarna.widget.AmbilWarnaPreference
             android:key="@string/key_text_color"
             android:defaultValue="@color/text"
@@ -155,17 +167,22 @@
             android:dependency="@string/key_check_hand_color"
             android:defaultValue="@color/danger"
             android:title="@string/hand_color" />
-	    <yuku.ambilwarna.widget.AmbilWarnaPreference
-            android:key="@string/key_background_color"
+        <CheckBoxPreference
+            android:key="@string/key_check_mano_back_color"
+            android:defaultValue="false"
+            android:title="@string/mano_back_color"
+            android:summary="@string/check_mano_back_color" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="@string/key_mano_back_color"
+            android:dependency="@string/key_check_mano_back_color"
             android:defaultValue="@color/background"
-            android:title="@string/background_color" />
-        <com.freak.dashboard.backgroundSettings.CustomListPreference
-            android:key="@string/key_background_picture"
-            android:title="@string/background_picture"
-            android:dialogTitle="@string/background_picture"
-            android:entries="@array/background_entries"
-            android:entryValues="@array/background_values"
-            android:defaultValue="-1" />
+            android:title="@string/mano_back_color" />
+        <com.freak.dashboard.preference.SeekBarPreference
+            android:key="@string/key_mano_back_transparency"
+            android:title="@string/mano_back_transparency"
+            android:defaultValue="192"
+            android:max="255"
+            robobunny:min="0" />
     </PreferenceCategory>
 
     <PreferenceCategory
