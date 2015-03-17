@@ -10,15 +10,19 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:name=".Dashboard"
-                  android:label="@string/app_name">
+        <activity
+            android:name=".Dashboard"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity android:name=".DashboardSettings"
-                  android:excludeFromRecents="true">
+        <activity
+            android:name=".DashboardSettings"
+            android:excludeFromRecents="true"
+            android:screenOrientation="landscape">
         </activity>
 		<receiver android:name=".BootReceiver"
 	    		android:enabled="true"
