@@ -8,8 +8,8 @@ android {
         applicationId "com.freak.dashboard"
         minSdkVersion 10
         targetSdkVersion 10
-        versionCode 216
-        versionName "2.1.6"
+        versionCode 217
+        versionName "2.1.7"
     }
 
     buildTypes {
