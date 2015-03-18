@@ -57,7 +57,7 @@ public class ManoHandView extends View {
         int centerX = this.getWidth()/2;
         int centerY = this.getHeight()/2;
 
-        canvas.drawLine(3, centerY, centerX + 20, centerY, mHandPaint);
+        canvas.drawLine(10, centerY, centerX + 20, centerY, mHandPaint);
         canvas.drawCircle(centerX, centerY, 5, mHandPaint);
     }
 

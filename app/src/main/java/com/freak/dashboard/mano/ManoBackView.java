@@ -77,10 +77,10 @@ public class ManoBackView extends View {
         int centerY = this.getHeight()/2;
         int radius = centerX -10;
 
+        canvas.drawCircle(centerX, centerY, radius, mBackPaint);
         float margin = (this.getWidth() - (radius * 2)) / 2 + mManoPaint.getStrokeWidth() / 2 + mRedZonePaint.getStrokeWidth() / 2;
         mRect.set(margin, margin, this.getWidth() - margin, this.getHeight() - margin);
         canvas.drawArc(mRect, 180 + mRedZoneStart, mRedZoneSize, false, mRedZonePaint);
-        canvas.drawCircle(centerX, centerY, radius, mBackPaint);
         canvas.drawCircle(centerX, centerY, radius, mManoPaint);
 
         for (int i = 0 ; i < positions.size() ; i++){
