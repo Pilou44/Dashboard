@@ -30,7 +30,7 @@ public class DashboardService extends Service {
 	private static final int STATUS_OK = 2;
 	private static final int STATUS_DANGER = 3;
 
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	// Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -88,8 +88,10 @@ public class DashboardService extends Service {
 			Log.d(TAG, "Bind to the torque service");
 		Intent intent = new Intent();
 		intent.setClassName("org.prowl.torque", "org.prowl.torque.remote.TorqueService");
-		successfulBind = bindService(intent, connection, 0);
+		successfulBind = bindService(intent, connection, Context.BIND_AUTO_CREATE);
 		if (successfulBind) {
+			if (DEBUG)
+				Log.d(TAG, "Successful bind");
 			updateTimer = new Timer();
 			updateTimer.schedule(new TimerTask() { public void run() {
 				if (torqueService != null)
