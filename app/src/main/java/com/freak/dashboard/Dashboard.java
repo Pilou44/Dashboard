@@ -34,7 +34,7 @@ public class Dashboard extends Activity {
 
 	private static final long PERIOD = 500;
 
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	
 
 	private DashboardService dashboardService;
@@ -315,6 +315,7 @@ public class Dashboard extends Activity {
 			startActivity(intent);
 			break;
 		case R.id.exit:
+            updateTimer.cancel();
 			dashboardService.stopSelf();
 			this.finish();
 			break;
