@@ -168,9 +168,12 @@ public class Dashboard extends Activity {
         else {
             backColor = backgroundColor;
         }
+        int manoMax = readIntegerFromPreferences(this.getString(R.string.key_mano_max), getResources().getInteger(R.integer.mano_max));
+        int manoRedZoneStart = readIntegerFromPreferences(this.getString(R.string.key_mano_red_start), getResources().getInteger(R.integer.mano_red_start));
+        int manoIntermediates = readIntegerFromPreferences(this.getString(R.string.key_mano_intermediates), getResources().getInteger(R.integer.mano_intermediates));
         int transparency = mPreferences.getInt(getString(R.string.key_mano_back_transparency), getResources().getInteger(R.integer.mano_back_transparency));
         backColor += (transparency * 16777216);
-        mano.setValues(PERIOD, 0, shiftLight5Value, 4, -10, 100, shiftLight5Value, 45);
+        mano.setValues(PERIOD, 0, manoMax, manoIntermediates, -10, 100, manoRedZoneStart, 45);
         mano.setHandColor(handColor);
         mano.setManoColor(manoColor, redZoneColor, backColor);
 

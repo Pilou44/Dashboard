@@ -55,4 +55,13 @@
     <string name="lightning2">Eclair 2</string>
     <string name="other">Autre</string>
     <string name="current">Actuel</string>
+
+    <!-- Manometer -->
+    <string name="manometer">Manomètre</string>
+    <string name="mano_max">Valeur max</string>
+    <string name="mano_max_desc">Valeur max du manomètre</string>
+    <string name="mano_red_start">Début de la zone rouge</string>
+    <string name="mano_red_start_desc">Régime auquel débute la zone rouge</string>
+    <string name="mano_intermediates">Intermédiaires</string>
+    <string name="mano_intermediates_desc">Nombre d\'intermédiaires entre 0 et la valeur max</string>
 </resources>

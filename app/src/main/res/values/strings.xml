@@ -55,4 +55,13 @@
     <string name="lightning2">Lightning 2</string>
     <string name="other">Other</string>
     <string name="current">Current</string>
+
+    <!-- Manometer -->
+    <string name="manometer">Manometer</string>
+    <string name="mano_max">Max value</string>
+    <string name="mano_max_desc">Manometer\'s max value</string>
+    <string name="mano_red_start">Red zone start</string>
+    <string name="mano_red_start_desc">Engine speed at which red zone starts</string>
+    <string name="mano_intermediates">Intermediates</string>
+    <string name="mano_intermediates_desc">Number of intermediates between 0 and max value</string>
 </resources>

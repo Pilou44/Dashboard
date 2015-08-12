@@ -89,27 +89,55 @@
 	    	/>
 	    	
     </PreferenceCategory>
-    	
+
     <PreferenceCategory
         android:key="@string/key_coolant_temperature"
         android:title="@string/coolant_temperature">
 
-	    <EditTextPreference 
-		    android:defaultValue="@integer/min_cool_temp" 
-		    android:key="@string/key_min_cool_temp"
-		    android:title="@string/min_cool_temp" 
-		    android:summary="@string/min_cool_temp_desc" 
-		    android:inputType="number"
-	    	/>
-	    <EditTextPreference 
-		    android:defaultValue="@integer/max_cool_temp" 
-		    android:key="@string/key_max_cool_temp"
-		    android:title="@string/max_cool_temp" 
-		    android:summary="@string/max_cool_temp_desc" 
-		    android:inputType="number"
-	    	/>
+        <EditTextPreference
+            android:defaultValue="@integer/min_cool_temp"
+            android:key="@string/key_min_cool_temp"
+            android:title="@string/min_cool_temp"
+            android:summary="@string/min_cool_temp_desc"
+            android:inputType="number"
+            />
+        <EditTextPreference
+            android:defaultValue="@integer/max_cool_temp"
+            android:key="@string/key_max_cool_temp"
+            android:title="@string/max_cool_temp"
+            android:summary="@string/max_cool_temp_desc"
+            android:inputType="number"
+            />
 
-	</PreferenceCategory>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/key_manometer"
+        android:title="@string/manometer">
+
+        <EditTextPreference
+            android:defaultValue="@integer/mano_max"
+            android:key="@string/key_mano_max"
+            android:title="@string/mano_max"
+            android:summary="@string/mano_max_desc"
+            android:inputType="number"
+            />
+        <EditTextPreference
+            android:defaultValue="@integer/mano_red_start"
+            android:key="@string/key_mano_red_start"
+            android:title="@string/mano_red_start"
+            android:summary="@string/mano_red_start_desc"
+            android:inputType="number"
+            />
+        <EditTextPreference
+            android:defaultValue="@integer/mano_intermediates"
+            android:key="@string/key_mano_intermediates"
+            android:title="@string/mano_intermediates"
+            android:summary="@string/mano_intermediates_desc"
+            android:inputType="number"
+            />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="@string/key_colors"

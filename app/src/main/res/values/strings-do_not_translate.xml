@@ -38,6 +38,10 @@
     <string name="key_check_hand_color" translatable="false">check_hand_color</string>
     <string name="key_hand_color" translatable="false">hand_color</string>
     <string name="key_check_mano_back_color" translatable="false">check_mano_back_color</string>
+    <string name="key_manometer" translatable="false">manometer</string>
     <string name="key_mano_back_color" translatable="false">mano_back_color</string>
     <string name="key_mano_back_transparency" translatable="false">mano_back_transparency</string>
+    <string name="key_mano_max" translatable="false">mano_max</string>
+    <string name="key_mano_red_start" translatable="false">mano_red_start</string>
+    <string name="key_mano_intermediates" translatable="false">mano_intermediates</string>
 </resources>

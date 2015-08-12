@@ -4,13 +4,16 @@
     <integer name="high_load">35</integer>
     <integer name="medium_load">15</integer>
     <integer name="low_load">3</integer>
-    <integer name="shift_light_1">4500</integer>
-    <integer name="shift_light_2">4750</integer>
-    <integer name="shift_light_3">5000</integer>
-    <integer name="shift_light_4">5250</integer>
-    <integer name="shift_light_5">5500</integer>
+    <integer name="shift_light_1">4000</integer>
+    <integer name="shift_light_2">4250</integer>
+    <integer name="shift_light_3">4500</integer>
+    <integer name="shift_light_4">4750</integer>
+    <integer name="shift_light_5">5000</integer>
     <integer name="min_cool_temp">80</integer>
     <integer name="max_cool_temp">90</integer>
     <integer name="mano_back_transparency">192</integer>
+    <integer name="mano_max">6000</integer>
+    <integer name="mano_red_start">5500</integer>
+    <integer name="mano_intermediates">5</integer>
 </resources>
          
