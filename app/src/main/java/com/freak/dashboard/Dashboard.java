@@ -183,7 +183,7 @@ public class Dashboard extends Activity {
 		textTemp.setTextColor(textColor);
 		textVoltage.setTextColor(textColor);
 
-        int backgroundId = Integer.decode(mPreferences.getString(this.getString(R.string.key_background_picture), "0"));
+        int backgroundId = Integer.decode(mPreferences.getString(this.getString(R.string.key_background_picture), "-1"));
 
         background.setBackgroundColor(backgroundColor);
         if (backgroundId >= 0) {
