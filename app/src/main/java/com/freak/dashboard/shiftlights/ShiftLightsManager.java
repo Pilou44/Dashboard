@@ -7,10 +7,10 @@ import com.freak.dashboard.R;
 public class ShiftLightsManager {
 
     private final ImageView[] mImages;
-    private int[] mOn;
-    private int[] mOff;
+    private final int[] mOn;
+    private final int[] mOff;
     private int[] mValues;
-    private boolean[] mState;
+    private final boolean[] mState;
     private boolean mShiftLightOn;
 
     public ShiftLightsManager(ImageView[] imageViews) {
@@ -22,7 +22,7 @@ public class ShiftLightsManager {
         mShiftLightOn = false;
     }
 
-    public boolean setValues(int[] values, int green, int yellow, int red) {
+    public void setValues(int[] values, int green, int yellow, int red) {
         if (values.length == mImages.length) {
             mValues = values;
             for (int i = 0 ; i < green ; i++) {
@@ -37,10 +37,6 @@ public class ShiftLightsManager {
             for (int i = 0 ; i < mImages.length ; i++) {
                 mOff[i] = R.drawable.off_light;
             }
-            return true;
-        }
-        else {
-            return false;
         }
     }
 

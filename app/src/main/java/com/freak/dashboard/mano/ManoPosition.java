@@ -2,9 +2,9 @@ package com.freak.dashboard.mano;
 
 public class ManoPosition {
 
-    private double mCos;
-    private double mSin;
-    private String mValue;
+    private final double mCos;
+    private final double mSin;
+    private final String mValue;
     private float mX1;
     private float mY1;
     private float mX2;
@@ -14,9 +14,6 @@ public class ManoPosition {
     private float mCenter;
     private float mRadiusInt;
 
-    public float mCenterTextX;
-    public float mCenterTextY;
-
     public ManoPosition(double cos, double sin, String value){
         mCos = cos;
         mSin = sin;
@@ -25,10 +22,6 @@ public class ManoPosition {
 
     public String getValue() {
         return mValue;
-    }
-
-    public void setValue(String value) {
-        mValue = value;
     }
 
     public void calculatePosition(float radiusExt, float radiusInt, float center, float textSize) {
@@ -64,7 +57,7 @@ public class ManoPosition {
         double textX4 = centerTextX + textWidth/2;
         double textY4 = centerTextY + textHeight/2;
 
-        while ((!testPointInsideCircle(textX1, textY1) || !testPointInsideCircle(textX2, textY2) || !testPointInsideCircle(textX3, textY3) || !testPointInsideCircle(textX4, textY4)) && radius > 0){
+        while ((isPointOutsideCircle(textX1, textY1) || isPointOutsideCircle(textX2, textY2) || isPointOutsideCircle(textX3, textY3) || isPointOutsideCircle(textX4, textY4)) && radius > 0){
             radius = radius - 1;
             centerTextX = center - (radius * mCos);
             centerTextY = center - (radius * mSin);
@@ -82,14 +75,12 @@ public class ManoPosition {
         mXText = (float)textX1;
         mYText = (float)textY1;
 
-        mCenterTextX = (float)centerTextX;
-        mCenterTextY = (float)centerTextY;
     }
 
-    private  boolean testPointInsideCircle(double x, double y){
+    private  boolean isPointOutsideCircle(double x, double y){
         double hypoSquare = (mCenter - x) * (mCenter - x) + (mCenter - y) * (mCenter - y);
         double radiusSquare = (double)mRadiusInt * (double)mRadiusInt;
-        return  hypoSquare < radiusSquare;
+        return  hypoSquare > radiusSquare;
     }
 
     public float getX1() {

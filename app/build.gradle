@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 22
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "com.freak.dashboard"
         minSdkVersion 10
-        targetSdkVersion 10
-        versionCode 219
-        versionName "2.1.9"
+        targetSdkVersion 22
+        versionCode 220
+        versionName "2.1.9.1"
     }
 
     buildTypes {
@@ -24,5 +24,5 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":AmbilWarna:library")
-    compile 'com.android.support:support-v4:21.0.+'
+    compile 'com.android.support:support-v4:22.2.1'
 }

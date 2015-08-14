@@ -136,7 +136,7 @@ public class DashboardService extends Service {
 	/**
 	 * Bits of service code. You usually won't need to change this.
 	 */
-	private ServiceConnection connection = new ServiceConnection() {
+	private final ServiceConnection connection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName arg0, IBinder service) {
 			torqueService = ITorqueService.Stub.asInterface(service);
 		}
@@ -145,7 +145,7 @@ public class DashboardService extends Service {
 		}
 	};
 
-	public void update() {
+    private void update() {
 		if (DEBUG)
 			Log.d(TAG, "Update");
 		try {

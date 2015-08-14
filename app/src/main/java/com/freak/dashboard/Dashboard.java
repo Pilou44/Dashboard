@@ -39,10 +39,10 @@ public class Dashboard extends Activity {
 
 	private DashboardService dashboardService;
 
-	int rpm = 0;
-	int temp = 0;
-	int load = 0;
-	float voltage = 0;
+    private int rpm = 0;
+    private int temp = 0;
+    private int load = 0;
+    private float voltage = 0;
 
 	private int textColor;
 	private int warningColor;
@@ -187,11 +187,11 @@ public class Dashboard extends Activity {
 
         background.setBackgroundColor(backgroundColor);
         if (backgroundId >= 0) {
-            TypedArray imgs = getResources().obtainTypedArray(R.array.background_pictures);
+            TypedArray images = getResources().obtainTypedArray(R.array.background_pictures);
 
-            if (backgroundId >= imgs.length())
-                backgroundId = imgs.length() - 1;
-            background.setBackgroundResource(imgs.getResourceId(backgroundId, -1));
+            if (backgroundId >= images.length())
+                backgroundId = images.length() - 1;
+            background.setBackgroundResource(images.getResourceId(backgroundId, -1));
         }
         else if (backgroundId == -3) {
             if (DEBUG)
@@ -238,7 +238,7 @@ public class Dashboard extends Activity {
 	/**
 	 * Bits of service code. You usually won't need to change this.
 	 */
-	private ServiceConnection connection = new ServiceConnection() {
+	private final ServiceConnection connection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName arg0, IBinder service) {
     		if (DEBUG)
     			Log.d(TAG, "onServiceConnected");
@@ -269,7 +269,7 @@ public class Dashboard extends Activity {
 	}
 
 
-	public void update() {
+    private void update() {
 		if (DEBUG)
 			Log.d(TAG, "Update datas");
 		

@@ -1,4 +1,3 @@
-/* Modified from http://robobunny.com/wp/2013/08/24/android-seekbar-preference-v2/ */
 package com.freak.dashboard.preference;
 
 import com.freak.dashboard.R;
@@ -6,6 +5,7 @@ import com.freak.dashboard.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.Preference;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -19,9 +19,10 @@ import android.widget.TextView;
 public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
 	
 	private final String TAG = getClass().getName();
-	
-	private static final String ANDROIDNS="http://schemas.android.com/apk/res/android";
-	private static final String APPLICATIONNS="http://robobunny.com";
+
+    private static final String ANDROID_NAMESPACE="http://schemas.android.com/apk/res/android";
+    private static final String PILOU_NAMESPACE="http://pilou.org";
+
 	private static final int DEFAULT_VALUE = 50;
 	
 	private int mMaxValue      = 100;
@@ -52,40 +53,41 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		
 		setWidgetLayoutResource(R.layout.seek_bar_preference);
 	}
-	
-	private void setValuesFromXml(AttributeSet attrs) {
-		mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", 100);
-		mMinValue = attrs.getAttributeIntValue(APPLICATIONNS, "min", 0);
-		
-		mUnitsLeft = getAttributeStringValue(attrs, APPLICATIONNS, "unitsLeft", "");
-		String units = getAttributeStringValue(attrs, APPLICATIONNS, "units", "");
-		mUnitsRight = getAttributeStringValue(attrs, APPLICATIONNS, "unitsRight", units);
-		
+
+    private void setValuesFromXml(AttributeSet attrs) {
+		mMaxValue = attrs.getAttributeIntValue(ANDROID_NAMESPACE, "max", 100);
+		mMinValue = attrs.getAttributeIntValue(PILOU_NAMESPACE, "min", 0);
+
+ 		mUnitsLeft = getAttributeStringValue(attrs, PILOU_NAMESPACE, "unitsLeft", "");
+		String units = getAttributeStringValue(attrs, PILOU_NAMESPACE, "units", "");
+		mUnitsRight = getAttributeStringValue(attrs, PILOU_NAMESPACE, "unitsRight", units);
+
 		try {
-			String newInterval = attrs.getAttributeValue(APPLICATIONNS, "interval");
+			String newInterval = attrs.getAttributeValue(PILOU_NAMESPACE, "interval");
 			if(newInterval != null)
 				mInterval = Integer.parseInt(newInterval);
 		}
 		catch(Exception e) {
 			Log.e(TAG, "Invalid interval value", e);
 		}
-		
+
 	}
-	
+
 	private String getAttributeStringValue(AttributeSet attrs, String namespace, String name, String defaultValue) {
 		String value = attrs.getAttributeValue(namespace, name);
-		if(value == null)
+        if(value == null)
 			value = defaultValue;
-		
+
 		return value;
-	}
-	
-	@Override
+    }
+
+
+    @Override
 	protected View onCreateView(ViewGroup parent) {
 		View view = super.onCreateView(parent);
 		
 		// The basic preference layout puts the widget frame to the right of the title and summary,
-		// so we need to change it a bit - the seekbar should be under them.
+		// so we need to change it a bit - the seek bar should be under them.
 		LinearLayout layout = (LinearLayout) view;
 		layout.setOrientation(LinearLayout.VERTICAL);
 		
@@ -93,22 +95,22 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 	}
 	
 	@Override
-	public void onBindView(View view) {
+	public void onBindView(@NonNull View view) {
 		super.onBindView(view);
 
 		try {
-			// move our seekbar to the new view we've been given
+			// move our seek bar to the new view we've been given
 			ViewParent oldContainer = mSeekBar.getParent();
 			ViewGroup newContainer = (ViewGroup) view.findViewById(R.id.seekBarPrefBarContainer);
 			
 			if (oldContainer != newContainer) {
-				// remove the seekbar from the old view
+				// remove the seek bar from the old view
 				if (oldContainer != null) {
 					((ViewGroup) oldContainer).removeView(mSeekBar);
 				}
-				// remove the existing seekbar (there may not be one) and add ours
+				// remove the existing seek bar (there may not be one) and add ours
 				newContainer.removeAllViews();
-				newContainer.addView(mSeekBar, ViewGroup.LayoutParams.FILL_PARENT,
+				newContainer.addView(mSeekBar, ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 			}
 		}
@@ -117,7 +119,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		}
 		
 		//if dependency is false from the beginning, disable the seek bar
-		if (view != null && !view.isEnabled())
+		if (!view.isEnabled())
 		{
 			mSeekBar.setEnabled(false);
 		}
@@ -125,11 +127,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		updateView(view);
 	}
     
-    	/**
-	 * Update a SeekBarPreference view with our current state
-	 * @param view
-	 */
-	protected void updateView(View view) {
+    private void updateView(View view) {
 
 		try {
 			mStatusText = (TextView) view.findViewById(R.id.seekBarPrefValue);
@@ -187,10 +185,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
 	@Override 
 	protected Object onGetDefaultValue(TypedArray ta, int index){
-		
-		int defaultValue = ta.getInt(index, DEFAULT_VALUE);
-		return defaultValue;
-		
+        return ta.getInt(index, DEFAULT_VALUE);
 	}
 
 	@Override
@@ -215,7 +210,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 	}
 	
 	/**
-	* make sure that the seekbar is disabled if the preference is disabled
+	* make sure that the seek bar is disabled if the preference is disabled
 	*/
 	@Override
 	public void setEnabled(boolean enabled) {

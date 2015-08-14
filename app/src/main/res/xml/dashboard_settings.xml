@@ -15,7 +15,7 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:robobunny="http://robobunny.com"
+    xmlns:pilou="http://pilou.org"
     android:title="@string/settings_name">
         
     <PreferenceCategory
@@ -210,7 +210,7 @@
             android:title="@string/mano_back_transparency"
             android:defaultValue="192"
             android:max="255"
-            robobunny:min="0" />
+            pilou:min="0" />
     </PreferenceCategory>
 
     <PreferenceCategory

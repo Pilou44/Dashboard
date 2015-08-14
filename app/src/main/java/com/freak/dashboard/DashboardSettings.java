@@ -50,7 +50,7 @@ public class DashboardSettings extends PreferenceActivity implements SharedPrefe
     /**
 	 * Bits of service code. You usually won't need to change this.
 	 */
-	private ServiceConnection connection = new ServiceConnection() {
+	private final ServiceConnection connection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName arg0, IBinder service) {
     		if (DEBUG)
     			Log.d(TAG, "onServiceConnected");

@@ -6,7 +6,7 @@ import com.freak.dashboard.R;
 
 public class SonicAnimation extends SpriteAnimation {
 
-	private static int sonic_wait[] = {
+	private static final int[] sonic_wait = {
 		/*R.drawable.sonic_wait_1, 
 		R.drawable.sonic_wait_2, 
 		R.drawable.sonic_wait_1, 
@@ -33,7 +33,7 @@ public class SonicAnimation extends SpriteAnimation {
 		R.drawable.sonic_wait_5 */
 		R.drawable.sonic_stand
 	};
-    private static int sonic_walk[] = {
+    private static final int[] sonic_walk = {
 		R.drawable.sonic_walk_1, 
 		R.drawable.sonic_walk_2, 
 		R.drawable.sonic_walk_3, 
@@ -43,13 +43,13 @@ public class SonicAnimation extends SpriteAnimation {
 		R.drawable.sonic_walk_7, 
 		R.drawable.sonic_walk_8
 	};
-    private static int sonic_run[] = {
+    private static final int[] sonic_run = {
 		R.drawable.sonic_run_1, 
 		R.drawable.sonic_run_2, 
 		R.drawable.sonic_run_3, 
 		R.drawable.sonic_run_4
 	};
-    private static int sonic_gold[] = {
+    private static final int[] sonic_gold = {
 		R.drawable.sonic_gold_1, 
 		R.drawable.sonic_gold_2
 	};

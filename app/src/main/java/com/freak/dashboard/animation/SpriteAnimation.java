@@ -10,19 +10,19 @@ import java.util.TimerTask;
 public abstract class SpriteAnimation {
 
     private static final boolean DEBUG = false;
-    protected static final String TAG = SpriteAnimation.class.getSimpleName();
+    private static final String TAG = SpriteAnimation.class.getSimpleName();
 
     private static final long ANIMATION_PERIOD = 100;
 
-    private int mAnimationStop[];
-    private int mAnimationLow[];
-    private int mAnimationMedium[];
-    private int mAnimationHigh[];
+    private final int[] mAnimationStop;
+    private final int[] mAnimationLow;
+    private final int[] mAnimationMedium;
+    private final int[] mAnimationHigh;
 
-    private int[] mAnimEnCours;
+    private int[] mRunningAnim;
     private int mIndexAnim = -1;
     private Timer mAnimationTimer;
-    private Handler mAnimationHandler;
+    private final Handler mAnimationHandler;
 
     private final ImageView mAnimation;
     private final int mLow;
@@ -39,7 +39,7 @@ public abstract class SpriteAnimation {
         mAnimationLow = getAnimationLow();
         mAnimationMedium = getAnimationMedium();
         mAnimationHigh = getAnimationHigh();
-        mAnimEnCours = mAnimationStop;
+        mRunningAnim = mAnimationStop;
     }
 
     public void start(){
@@ -59,27 +59,27 @@ public abstract class SpriteAnimation {
     private void updateAnimation() {
         mAnimationHandler.post(new Runnable() { public void run() {
             mIndexAnim++;
-            mIndexAnim = mIndexAnim%mAnimEnCours.length;
-            mAnimation.setImageResource(mAnimEnCours[mIndexAnim]);
+            mIndexAnim = mIndexAnim%mRunningAnim.length;
+            mAnimation.setImageResource(mRunningAnim[mIndexAnim]);
         }});
     }
 
     public void setValue(int value){
         // Update displayed animation
-        if ((value >= mHigh) && (mAnimEnCours != mAnimationHigh)) {
-            mAnimEnCours = mAnimationHigh;
+        if ((value >= mHigh) && (mRunningAnim != mAnimationHigh)) {
+            mRunningAnim = mAnimationHigh;
             mIndexAnim = -1;
         }
-        else if ((value >= mMedium) && (mAnimEnCours != mAnimationMedium)) {
-            mAnimEnCours = mAnimationMedium;
+        else if ((value >= mMedium) && (mRunningAnim != mAnimationMedium)) {
+            mRunningAnim = mAnimationMedium;
             mIndexAnim = -1;
         }
-        else if ((value >= mLow) && (mAnimEnCours != mAnimationLow)) {
-            mAnimEnCours = mAnimationLow;
+        else if ((value >= mLow) && (mRunningAnim != mAnimationLow)) {
+            mRunningAnim = mAnimationLow;
             mIndexAnim = -1;
         }
-        else if (mAnimEnCours != mAnimationStop) {
-            mAnimEnCours = mAnimationStop;
+        else if (mRunningAnim != mAnimationStop) {
+            mRunningAnim = mAnimationStop;
             mIndexAnim = -1;
         }
     }
