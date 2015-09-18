@@ -25,15 +25,24 @@ public abstract class SpriteAnimation {
     private final Handler mAnimationHandler;
 
     private final ImageView mAnimation;
-    private final int mLow;
-    private final int mMedium;
-    private final int mHigh;
+    private final int mLowPlus;
+    private final int mMediumPlus;
+    private final int mHighPlus;
+    private final int mLowMinus;
+    private final int mMediumMinus;
+    private final int mHighMinus;
 
     public SpriteAnimation(ImageView animation, int low, int medium, int high){
         mAnimation = animation;
-        mLow = low;
-        mMedium = medium;
-        mHigh = high;
+        int margin = ((high * 5)/100)+1;
+        mHighPlus = high + margin;
+        mHighMinus = high - margin;
+        margin = ((medium * 5)/100)+1;
+        mMediumPlus = medium + margin;
+        mMediumMinus = medium - margin;
+        margin = ((low * 5)/100)+1;
+        mLowPlus = low + margin;
+        mLowMinus = low - margin;
         mAnimationHandler = new Handler();
         mAnimationStop = getAnimationStop();
         mAnimationLow = getAnimationLow();
@@ -66,21 +75,37 @@ public abstract class SpriteAnimation {
 
     public void setValue(int value){
         // Update displayed animation
-        if ((value >= mHigh) && (mRunningAnim != mAnimationHigh)) {
-            mRunningAnim = mAnimationHigh;
-            mIndexAnim = -1;
+        if (mRunningAnim == mAnimationStop){
+            if (value >= mLowPlus){
+                mRunningAnim = mAnimationLow;
+                mIndexAnim = -1;
+            }
         }
-        else if ((value >= mMedium) && (mRunningAnim != mAnimationMedium)) {
-            mRunningAnim = mAnimationMedium;
-            mIndexAnim = -1;
+        else if (mRunningAnim == mAnimationLow){
+            if (value >= mMediumPlus) {
+                mRunningAnim = mAnimationMedium;
+                mIndexAnim = -1;
+            }
+            else if (value <= mLowMinus){
+                mRunningAnim = mAnimationStop;
+                mIndexAnim = -1;
+            }
         }
-        else if ((value >= mLow) && (mRunningAnim != mAnimationLow)) {
-            mRunningAnim = mAnimationLow;
-            mIndexAnim = -1;
+        else if (mRunningAnim == mAnimationMedium){
+            if (value >= mHighPlus) {
+                mRunningAnim = mAnimationHigh;
+                mIndexAnim = -1;
+            }
+            else if (value <= mMediumMinus){
+                mRunningAnim = mAnimationLow;
+                mIndexAnim = -1;
+            }
         }
-        else if (mRunningAnim != mAnimationStop) {
-            mRunningAnim = mAnimationStop;
-            mIndexAnim = -1;
+        else if (mRunningAnim == mAnimationHigh){
+            if (value <= mHighMinus){
+                mRunningAnim = mAnimationMedium;
+                mIndexAnim = -1;
+            }
         }
     }
 
