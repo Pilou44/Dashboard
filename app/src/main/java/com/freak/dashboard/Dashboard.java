@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -274,40 +275,40 @@ public class Dashboard extends Activity {
 			Log.d(TAG, "Update datas");
 		
 		// Update datas
-		handler.post(new Runnable() { public void run() {
-			
-			if (DEBUG)
-				Log.d(TAG, "Read datas");
-			rpm = dashboardService.getRpm();
-			temp = dashboardService.getTemp();
-			load = dashboardService.getLoad();
-			voltage = dashboardService.getVoltage();
-			
-			if (DEBUG)
-				Log.d(TAG, "Update fields");
-			textRPM.setText("" + rpm);
-			textLoad.setText("" + load + getResources().getString(R.string.unit_load));
-			textTemp.setText("" + temp + getResources().getString(R.string.unit_temp));
-			textVoltage.setText(voltage + " " + getResources().getString(R.string.unit_voltage));
+		handler.post(new Runnable() {
+            public void run() {
 
-			if (temp < minCoolTemp) {
-				textTemp.setTextColor(warningColor);
-			}
-			else if (temp > maxCoolTemp) {
-				textTemp.setTextColor(dangerColor);
-			}
-			else {
-				textTemp.setTextColor(textColor);
-			}
+                if (DEBUG)
+                    Log.d(TAG, "Read datas");
+                rpm = dashboardService.getRpm();
+                temp = dashboardService.getTemp();
+                load = dashboardService.getLoad();
+                voltage = dashboardService.getVoltage();
 
-            mano.setValue(rpm);
+                if (DEBUG)
+                    Log.d(TAG, "Update fields");
+                textRPM.setText("" + rpm);
+                textLoad.setText("" + load + getResources().getString(R.string.unit_load));
+                textTemp.setText("" + temp + getResources().getString(R.string.unit_temp));
+                textVoltage.setText(voltage + " " + getResources().getString(R.string.unit_voltage));
 
-			// Update displayed animation
-			mAnimation.setValue(load);
+                if (temp < minCoolTemp) {
+                    textTemp.setTextColor(warningColor);
+                } else if (temp > maxCoolTemp) {
+                    textTemp.setTextColor(dangerColor);
+                } else {
+                    textTemp.setTextColor(textColor);
+                }
 
-			// Update shift lights
-            shiftManager.update(rpm);
-		}});
+                mano.setValue(rpm);
+
+                // Update displayed animation
+                mAnimation.setValue(load);
+
+                // Update shift lights
+                shiftManager.update(rpm);
+            }
+        });
 	}
 
 	@Override
@@ -332,4 +333,43 @@ public class Dashboard extends Activity {
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (DEBUG)
+            Log.d(TAG, "Receive key up : " + keyCode + ", " + event.getKeyCode());
+        switch (keyCode){
+            case KeyEvent.KEYCODE_DPAD_UP:
+                event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT);
+                keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+                keyCode = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
+                break;
+        }
+        if (DEBUG)
+            Log.d(TAG, "New key up : " + keyCode + ", " + event.getKeyCode());
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (DEBUG)
+            Log.d(TAG, "Receive key down : " + keyCode + ", " + event.getKeyCode());
+        switch (keyCode){
+            case KeyEvent.KEYCODE_DPAD_UP:
+                event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
+                keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+                keyCode = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
+                break;
+        }
+        if (DEBUG)
+            Log.d(TAG, "New key down : " + keyCode + ", " + event.getKeyCode());
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.freak.dashboard;
 
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,6 +52,7 @@ public class DashboardService extends Service {
 	private int minCoolTemp;
 
 	private int maxCoolTemp;
+    private boolean mFirstConnection;
 
     /**
      * Class used for the client Binder.  Because we know this service always
@@ -92,6 +95,9 @@ public class DashboardService extends Service {
 		if (successfulBind) {
 			if (DEBUG)
 				Log.d(TAG, "Successful bind");
+
+            mFirstConnection = true;
+
 			updateTimer = new Timer();
 			updateTimer.schedule(new TimerTask() { public void run() {
 				if (torqueService != null)
@@ -149,6 +155,29 @@ public class DashboardService extends Service {
 		if (DEBUG)
 			Log.d(TAG, "Update");
 		try {
+            if (mFirstConnection) {
+                Float readSupportedPids = torqueService.getValueForPid(0x00, true);
+                byte[] readSupportedPidsBytes = ByteBuffer.allocate(4).putFloat(readSupportedPids).array();
+                if (DEBUG)
+                    Log.d(TAG, "Supported PIDs 1:" + Arrays.toString(readSupportedPidsBytes));
+
+                readSupportedPids = torqueService.getValueForPid(0x20, true);
+                readSupportedPidsBytes = ByteBuffer.allocate(4).putFloat(readSupportedPids).array();
+                if (DEBUG)
+                    Log.d(TAG, "Supported PIDs 2:" + Arrays.toString(readSupportedPidsBytes));
+
+                readSupportedPids = torqueService.getValueForPid(0x40, true);
+                readSupportedPidsBytes = ByteBuffer.allocate(4).putFloat(readSupportedPids).array();
+                if (DEBUG)
+                    Log.d(TAG, "Supported PIDs 3:" + Arrays.toString(readSupportedPidsBytes));
+
+                readSupportedPids = torqueService.getValueForPid(0x60, true);
+                readSupportedPidsBytes = ByteBuffer.allocate(4).putFloat(readSupportedPids).array();
+                if (DEBUG)
+                    Log.d(TAG, "Supported PIDs 4:" + Arrays.toString(readSupportedPidsBytes));
+
+                mFirstConnection = false;
+            }
 
 			Float readRpm = torqueService.getValueForPid(0x0c, true); // Engine RPM
 			Float readLoad = torqueService.getValueForPid(0x04, true); // Calculated engine load value
