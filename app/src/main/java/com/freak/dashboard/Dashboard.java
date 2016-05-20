@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -111,6 +112,7 @@ public class Dashboard extends Activity {
         if (DEBUG)
             Log.d(TAG, "Load Preferences");
         mPreferences = getSharedPreferences(this.getString(R.string.key_preferences), 0);
+
     }
 
 	@Override
@@ -339,37 +341,35 @@ public class Dashboard extends Activity {
         if (DEBUG)
             Log.d(TAG, "Receive key up : " + keyCode + ", " + event.getKeyCode());
         switch (keyCode){
-            case KeyEvent.KEYCODE_DPAD_UP:
-                event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT);
-                keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
-                break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-                keyCode = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
-                break;
+                if (DEBUG)
+                    Log.d(TAG, "Send key down and up : " + KeyEvent.KEYCODE_MEDIA_NEXT);
+                Thread nextThread = new Thread()
+                {
+                    public void run()
+                    {
+                        Instrumentation m_Instrumentation = new Instrumentation();
+                        m_Instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MEDIA_NEXT);
+                    }
+                };
+                nextThread.start();
+                return true;
+            case KeyEvent.KEYCODE_DPAD_UP:
+                if (DEBUG)
+                    Log.d(TAG, "Send key down and up : " + KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+                Thread previousThread = new Thread()
+                {
+                    public void run()
+                    {
+                        Instrumentation m_Instrumentation = new Instrumentation();
+                        m_Instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+                    }
+                };
+                previousThread.start();
+                return true;
         }
-        if (DEBUG)
-            Log.d(TAG, "New key up : " + keyCode + ", " + event.getKeyCode());
-        return super.onKeyUp(keyCode, event);
-    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (DEBUG)
-            Log.d(TAG, "Receive key down : " + keyCode + ", " + event.getKeyCode());
-        switch (keyCode){
-            case KeyEvent.KEYCODE_DPAD_UP:
-                event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
-                keyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
-                break;
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-                event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-                keyCode = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
-                break;
-        }
-        if (DEBUG)
-            Log.d(TAG, "New key down : " + keyCode + ", " + event.getKeyCode());
-        return super.onKeyDown(keyCode, event);
+        return super.onKeyUp(keyCode, event);
     }
 
 }
