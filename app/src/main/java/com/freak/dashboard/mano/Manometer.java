@@ -2,6 +2,7 @@ package com.freak.dashboard.mano;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 public class Manometer extends RelativeLayout {
@@ -44,7 +45,11 @@ public class Manometer extends RelativeLayout {
         mBackView.setColor(manoColor, redZoneColor, backColor);
     }
 
-    public void setValue(int value) {
+    /*public void setValue(int value) {
         mHandView.setValue(value);
+    }*/
+
+    public View getHand() {
+        return mHandView;
     }
 }

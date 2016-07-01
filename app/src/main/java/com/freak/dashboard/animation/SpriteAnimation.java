@@ -4,6 +4,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.freak.dashboard.GetInfoThread;
+import com.freak.dashboard.bus.AnimationEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,24 +31,9 @@ public abstract class SpriteAnimation {
     private final Handler mAnimationHandler;
 
     private final ImageView mAnimation;
-    private final int mLowPlus;
-    private final int mMediumPlus;
-    private final int mHighPlus;
-    private final int mLowMinus;
-    private final int mMediumMinus;
-    private final int mHighMinus;
 
-    public SpriteAnimation(ImageView animation, int low, int medium, int high){
+    public SpriteAnimation(ImageView animation){
         mAnimation = animation;
-        int margin = ((high * 5)/100)+1;
-        mHighPlus = high + margin;
-        mHighMinus = high - margin;
-        margin = ((medium * 5)/100)+1;
-        mMediumPlus = medium + margin;
-        mMediumMinus = medium - margin;
-        margin = ((low * 5)/100)+1;
-        mLowPlus = low + margin;
-        mLowMinus = low - margin;
         mAnimationHandler = new Handler();
         mAnimationStop = getAnimationStop();
         mAnimationLow = getAnimationLow();
@@ -55,6 +46,7 @@ public abstract class SpriteAnimation {
         // Initialize animation
         if (DEBUG)
             Log.d(TAG, "Initialize animation");
+
         mAnimationTimer = new Timer();
         mAnimationTimer.schedule(new TimerTask() { public void run() {
             updateAnimation();
@@ -62,6 +54,8 @@ public abstract class SpriteAnimation {
     }
 
     public void stop(){
+        EventBus.getDefault().unregister(this);
+
         mAnimationTimer.cancel();
     }
 
@@ -73,7 +67,22 @@ public abstract class SpriteAnimation {
         }});
     }
 
-    public void setValue(int value){
+    @Subscribe
+    public void onAnimationEvent(final AnimationEvent event) {
+        if (event.getAnimationStatus() == GetInfoThread.ANIM_STATUS_SPEED_0){
+            mRunningAnim = mAnimationStop;
+        } else if (event.getAnimationStatus() == GetInfoThread.ANIM_STATUS_SPEED_1){
+            mRunningAnim = mAnimationLow;
+        } else if (event.getAnimationStatus() == GetInfoThread.ANIM_STATUS_SPEED_2){
+            mRunningAnim = mAnimationMedium;
+        } else {
+            mRunningAnim = mAnimationHigh;
+        }
+        mIndexAnim = -1;
+    }
+
+
+    /*public void setValue(int value){
         // Update displayed animation
         if (mRunningAnim == mAnimationStop){
             if (value >= mLowPlus){
@@ -107,7 +116,7 @@ public abstract class SpriteAnimation {
                 mIndexAnim = -1;
             }
         }
-    }
+    }*/
 
     protected abstract int[] getAnimationStop();
     protected abstract int[] getAnimationLow();

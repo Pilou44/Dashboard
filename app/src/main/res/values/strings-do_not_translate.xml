@@ -2,11 +2,11 @@
 <resources>
     <string name="init_rpm" translatable="false">0</string>
     <string name="init_temp" translatable="false">0°C</string>
-    <string name="unit_temp" translatable="false">°C</string>
+    <string name="display_temp" translatable="false">%1$d°C</string>
     <string name="init_voltage" translatable="false">0.0 V</string>
-    <string name="unit_voltage" translatable="false">"V"</string>
+    <string name="display_voltage" translatable="false">"%1$.1f V"</string>
     <string name="init_load" translatable="false">"0%"</string>
-    <string name="unit_load" translatable="false">"%"</string>
+    <string name="display_load" translatable="false">%1$d\%</string>
 
     <string name="key_load" translatable="false">"load"</string>
     <string name="key_high_load" translatable="false">"high_load"</string>

@@ -54,8 +54,8 @@ public class SonicAnimation extends SpriteAnimation {
 		R.drawable.sonic_gold_2
 	};
 
-    public SonicAnimation(ImageView animation, int low, int medium, int high) {
-        super(animation, low, medium, high);
+    public SonicAnimation(ImageView animation) {
+        super(animation);
     }
 
     @Override

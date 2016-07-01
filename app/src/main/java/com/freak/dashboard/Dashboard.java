@@ -1,8 +1,5 @@
 package com.freak.dashboard;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.ComponentName;
@@ -27,33 +24,41 @@ import android.widget.TextView;
 import com.freak.dashboard.DashboardService.LocalBinder;
 import com.freak.dashboard.animation.SonicAnimation;
 import com.freak.dashboard.animation.SpriteAnimation;
+import com.freak.dashboard.bus.LoadEvent;
+import com.freak.dashboard.bus.RPMEvent;
+import com.freak.dashboard.bus.TempEvent;
+import com.freak.dashboard.bus.TempStatusEvent;
+import com.freak.dashboard.bus.VoltageEvent;
 import com.freak.dashboard.mano.Manometer;
 import com.freak.dashboard.shiftlights.ShiftLightsManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class Dashboard extends Activity {
 
 	private static final String TAG = Dashboard.class.getSimpleName();
 
-	private static final long PERIOD = 500;
+	private static final long PERIOD = 200;
 
 	private static final boolean DEBUG = true;
 	
 
 	private DashboardService dashboardService;
 
-    private int rpm = 0;
+    /*private int rpm = 0;
     private int temp = 0;
     private int load = 0;
-    private float voltage = 0;
+    private float voltage = 0;*/
 
 	private int textColor;
 	private int warningColor;
 	private int dangerColor;
 	
-	private int minCoolTemp;
-	private int maxCoolTemp;
+	//private int minCoolTemp;
+	//private int maxCoolTemp;
 	
-	private Timer updateTimer;
+	//private Timer updateTimer;
 	private Handler handler;
 	
 	private LinearLayout background;
@@ -113,6 +118,7 @@ public class Dashboard extends Activity {
             Log.d(TAG, "Load Preferences");
         mPreferences = getSharedPreferences(this.getString(R.string.key_preferences), 0);
 
+
     }
 
 	@Override
@@ -127,7 +133,7 @@ public class Dashboard extends Activity {
 		if (DEBUG)
 			Log.d(TAG, "Connect to service");
 		Intent intent = new Intent(this, DashboardService.class);
-		successfulBind = bindService(intent, connection, 0);
+		successfulBind = bindService(intent, connection, BIND_AUTO_CREATE);
 
         int shiftLight1Value = readIntegerFromPreferences(this.getString(R.string.key_shift_light_1), getResources().getInteger(R.integer.shift_light_1));
         int shiftLight2Value = readIntegerFromPreferences(this.getString(R.string.key_shift_light_2), getResources().getInteger(R.integer.shift_light_2));
@@ -140,8 +146,8 @@ public class Dashboard extends Activity {
         warningColor = mPreferences.getInt(this.getString(R.string.key_warning_color), getResources().getColor(R.color.warning));
         dangerColor = mPreferences.getInt(this.getString(R.string.key_danger_color), getResources().getColor(R.color.danger));
         int backgroundColor = mPreferences.getInt(this.getString(R.string.key_background_color), getResources().getColor(R.color.background));
-        minCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_min_cool_temp), getResources().getInteger(R.integer.min_cool_temp));
-        maxCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_max_cool_temp), getResources().getInteger(R.integer.max_cool_temp));
+        //minCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_min_cool_temp), getResources().getInteger(R.integer.min_cool_temp));
+        //maxCoolTemp = readIntegerFromPreferences(this.getString(R.string.key_max_cool_temp), getResources().getInteger(R.integer.max_cool_temp));
 
         int manoColor;
         if (mPreferences.getBoolean(getString(R.string.key_check_mano_color), false)) {
@@ -195,6 +201,7 @@ public class Dashboard extends Activity {
             if (backgroundId >= images.length())
                 backgroundId = images.length() - 1;
             background.setBackgroundResource(images.getResourceId(backgroundId, -1));
+            images.recycle();
         }
         else if (backgroundId == -3) {
             if (DEBUG)
@@ -212,21 +219,23 @@ public class Dashboard extends Activity {
             }
         }
 
-        int highLoadValue = readIntegerFromPreferences(this.getString(R.string.key_high_load), getResources().getInteger(R.integer.high_load));
-        int mediumLoadValue = readIntegerFromPreferences(this.getString(R.string.key_medium_load), getResources().getInteger(R.integer.medium_load));
-        int lowLoadValue = readIntegerFromPreferences(this.getString(R.string.key_low_load), getResources().getInteger(R.integer.low_load));
-        mAnimation = new SonicAnimation(animation, lowLoadValue, mediumLoadValue, highLoadValue);
+        //int highLoadValue = readIntegerFromPreferences(this.getString(R.string.key_high_load), getResources().getInteger(R.integer.high_load));
+        //int mediumLoadValue = readIntegerFromPreferences(this.getString(R.string.key_medium_load), getResources().getInteger(R.integer.medium_load));
+        //int lowLoadValue = readIntegerFromPreferences(this.getString(R.string.key_low_load), getResources().getInteger(R.integer.low_load));
+        mAnimation = new SonicAnimation(animation);
         mAnimation.start();
 
-		if (successfulBind) {
+        register();
+
+		/*if (successfulBind) {
     		// Initialize update
    			updateTimer = new Timer();
    			updateTimer.schedule(new TimerTask() { public void run() {
    				if (dashboardService != null)
    					update();
    			}}, 1000, PERIOD);
-		}
-		
+		}*/
+
 	}
 
     private int readIntegerFromPreferences(String name, int defaultValue) {
@@ -252,27 +261,41 @@ public class Dashboard extends Activity {
 		public void onServiceDisconnected(ComponentName name) {
     		if (DEBUG)
     			Log.d(TAG, "onServiceDisconnected");
+            unbindService(connection);
 			dashboardService = null;
 		}
 	};
 
-	@Override
+    private void unregister() {
+        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(mAnimation);
+        EventBus.getDefault().unregister(mano.getHand());
+    }
+
+    private void register() {
+        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(mAnimation);
+        EventBus.getDefault().register(mano.getHand());
+    }
+
+    @Override
 	protected void onPause() {
 		if (DEBUG)
 			Log.d(TAG, "onPause");
 		if (successfulBind) {
 			if (DEBUG)
 				Log.d(TAG, "unbindService");
-			updateTimer.cancel();
+			//updateTimer.cancel();
 			successfulBind = false;
-			unbindService(connection);
 		}
+
         mAnimation.stop();
+        unregister();
 		super.onPause();
 	}
 
 
-    private void update() {
+    /*private void update() {
 		if (DEBUG)
 			Log.d(TAG, "Update datas");
 		
@@ -311,9 +334,62 @@ public class Dashboard extends Activity {
                 shiftManager.update(rpm);
             }
         });
-	}
+	}*/
 
-	@Override
+    @Subscribe
+    public void onRPMEvent(final RPMEvent event) {
+        handler.post(new Runnable() {
+            public void run() {
+                textRPM.setText(String.format(getResources().getConfiguration().locale, "%d", event.getRpm()));
+            }
+        });
+    }
+
+    @Subscribe
+    public void onLoadEvent(final LoadEvent event) {
+        handler.post(new Runnable() {
+            public void run() {
+                textLoad.setText(String.format(getResources().getConfiguration().locale, getResources().getString(R.string.display_load), event.getLoad()));
+            }
+        });
+    }
+
+    @Subscribe
+    public void onTempEvent(final TempEvent event) {
+        handler.post(new Runnable() {
+            public void run() {
+                textTemp.setText(String.format(getResources().getConfiguration().locale, getResources().getString(R.string.display_temp), event.getTemp()));
+            }
+        });
+    }
+
+    @Subscribe
+    public void onVoltageEvent(final VoltageEvent event) {
+        handler.post(new Runnable() {
+            public void run() {
+                textVoltage.setText(String.format(getResources().getConfiguration().locale, getResources().getString(R.string.display_voltage), event.getVoltage()));
+            }
+        });
+    }
+
+    @Subscribe
+    public void onTempStatusEvent(final TempStatusEvent event) {
+        handler.post(new Runnable() {
+            public void run() {
+                if (event.getTempStatus() == GetInfoThread.TEMP_STATUS_WARNING) {
+                    textTemp.setTextColor(warningColor);
+                } else if (event.getTempStatus() == GetInfoThread.TEMP_STATUS_DANGER) {
+                    textTemp.setTextColor(dangerColor);
+                } else {
+                    textTemp.setTextColor(textColor);
+                }
+            }
+        });
+    }
+
+
+
+    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.dashboard_settings:
@@ -321,7 +397,7 @@ public class Dashboard extends Activity {
 			startActivity(intent);
 			break;
 		case R.id.exit:
-            updateTimer.cancel();
+            //updateTimer.cancel();
 			dashboardService.stopSelf();
 			this.finish();
 			break;
