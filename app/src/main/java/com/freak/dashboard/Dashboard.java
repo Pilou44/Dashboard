@@ -76,6 +76,7 @@ public class Dashboard extends Activity {
     private ShiftLightsManager shiftManager;
     private SpriteAnimation mAnimation;
     private SharedPreferences mPreferences;
+    private int mTempStatus;
 
     /** Called when the activity is first created. */
 	@Override
@@ -111,14 +112,14 @@ public class Dashboard extends Activity {
 
         mano = (Manometer) findViewById(R.id.mano);
 
+        mTempStatus = GetInfoThread.TEMP_STATUS_OK;
+
 		handler = new Handler();
 
         // Load preferences
         if (DEBUG)
             Log.d(TAG, "Load Preferences");
         mPreferences = getSharedPreferences(this.getString(R.string.key_preferences), 0);
-
-
     }
 
 	@Override
@@ -189,7 +190,15 @@ public class Dashboard extends Activity {
         textRPM.setTextColor(textColor);
 		textUnitRPM.setTextColor(textColor);
 		textLoad.setTextColor(textColor);
-		textTemp.setTextColor(textColor);
+
+        if (mTempStatus == GetInfoThread.TEMP_STATUS_WARNING) {
+            textTemp.setTextColor(warningColor);
+        } else if (mTempStatus == GetInfoThread.TEMP_STATUS_DANGER) {
+            textTemp.setTextColor(dangerColor);
+        } else {
+            textTemp.setTextColor(textColor);
+        }
+
 		textVoltage.setTextColor(textColor);
 
         int backgroundId = Integer.decode(mPreferences.getString(this.getString(R.string.key_background_picture), "-1"));
@@ -270,12 +279,14 @@ public class Dashboard extends Activity {
         EventBus.getDefault().unregister(this);
         EventBus.getDefault().unregister(mAnimation);
         EventBus.getDefault().unregister(mano.getHand());
+        EventBus.getDefault().unregister(shiftManager);
     }
 
     private void register() {
         EventBus.getDefault().register(this);
         EventBus.getDefault().register(mAnimation);
         EventBus.getDefault().register(mano.getHand());
+        EventBus.getDefault().register(shiftManager);
     }
 
     @Override
@@ -374,6 +385,7 @@ public class Dashboard extends Activity {
 
     @Subscribe
     public void onTempStatusEvent(final TempStatusEvent event) {
+        mTempStatus = event.getTempStatus();
         handler.post(new Runnable() {
             public void run() {
                 if (event.getTempStatus() == GetInfoThread.TEMP_STATUS_WARNING) {

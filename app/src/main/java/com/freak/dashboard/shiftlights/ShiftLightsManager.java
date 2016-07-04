@@ -1,8 +1,12 @@
 package com.freak.dashboard.shiftlights;
 
+import android.os.Handler;
 import android.widget.ImageView;
 
 import com.freak.dashboard.R;
+import com.freak.dashboard.bus.RPMEvent;
+
+import org.greenrobot.eventbus.Subscribe;
 
 public class ShiftLightsManager {
 
@@ -12,6 +16,7 @@ public class ShiftLightsManager {
     private int[] mValues;
     private final boolean[] mState;
     private boolean mShiftLightOn;
+    private Handler handler;
 
     public ShiftLightsManager(ImageView[] imageViews) {
         mImages= imageViews;
@@ -20,6 +25,7 @@ public class ShiftLightsManager {
         mOn = new int[mImages.length];
         mOff = new int[mImages.length];
         mShiftLightOn = false;
+        handler = new Handler();
     }
 
     public void setValues(int[] values, int green, int yellow, int red) {
@@ -40,7 +46,16 @@ public class ShiftLightsManager {
         }
     }
 
-    public void update(int rpm) {
+    @Subscribe
+    public void onRPMEvent(final RPMEvent event) {
+        handler.post(new Runnable() {
+            public void run() {
+                update(event.getRpm());
+            }
+        });
+    }
+
+    private void update(int rpm) {
         if (rpm >= mValues[0]) {
             mShiftLightOn = true;
             for (int i = 0; i < mImages.length; i++) {
