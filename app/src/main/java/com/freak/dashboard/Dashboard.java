@@ -232,7 +232,6 @@ public class Dashboard extends Activity {
         //int mediumLoadValue = readIntegerFromPreferences(this.getString(R.string.key_medium_load), getResources().getInteger(R.integer.medium_load));
         //int lowLoadValue = readIntegerFromPreferences(this.getString(R.string.key_low_load), getResources().getInteger(R.integer.low_load));
         mAnimation = new SonicAnimation(animation);
-        mAnimation.start();
 
         register();
 
@@ -300,7 +299,6 @@ public class Dashboard extends Activity {
 			successfulBind = false;
 		}
 
-        mAnimation.stop();
         unregister();
 		super.onPause();
 	}
