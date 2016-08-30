@@ -25,6 +25,7 @@ public abstract class SpriteAnimation {
     private final int mAnimationHigh;
 
     private final ImageView mAnimationView;
+    private final Handler mAnimationHandler;
     private AnimationDrawable mAnimation;
 
     public SpriteAnimation(ImageView animation){
@@ -34,6 +35,7 @@ public abstract class SpriteAnimation {
         mAnimationMedium = getAnimationMedium();
         mAnimationHigh = getAnimationHigh();
 
+        mAnimationHandler = new Handler();
 
         mAnimationView.setImageResource(mAnimationStop);
         mAnimation = (AnimationDrawable) mAnimationView.getDrawable();
@@ -43,26 +45,23 @@ public abstract class SpriteAnimation {
     @Subscribe
     public void onAnimationEvent(final AnimationEvent event) {
         if (event.getAnimationStatus() == GetInfoThread.ANIM_STATUS_SPEED_0){
-            mAnimation.stop();
-            mAnimationView.setImageResource(mAnimationStop);
-            mAnimation = (AnimationDrawable) mAnimationView.getDrawable();
-            mAnimation.start();
+            changeAnimation(mAnimationStop);
         } else if (event.getAnimationStatus() == GetInfoThread.ANIM_STATUS_SPEED_1){
-            mAnimation.stop();
-            mAnimationView.setImageResource(mAnimationLow);
-            mAnimation = (AnimationDrawable) mAnimationView.getDrawable();
-            mAnimation.start();
+            changeAnimation(mAnimationLow);
         } else if (event.getAnimationStatus() == GetInfoThread.ANIM_STATUS_SPEED_2){
-            mAnimation.stop();
-            mAnimationView.setImageResource(mAnimationMedium);
-            mAnimation = (AnimationDrawable) mAnimationView.getDrawable();
-            mAnimation.start();
+            changeAnimation(mAnimationMedium);
         } else {
+            changeAnimation(mAnimationHigh);
+        }
+    }
+
+    public void changeAnimation(final int animation) {
+        mAnimationHandler.post(new Runnable() { public void run() {
             mAnimation.stop();
-            mAnimationView.setImageResource(mAnimationHigh);
+            mAnimationView.setImageResource(animation);
             mAnimation = (AnimationDrawable) mAnimationView.getDrawable();
             mAnimation.start();
-        }
+            }});
     }
 
     protected abstract int getAnimationStop();
